@@ -40,7 +40,7 @@
         </div>
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0 0 25px 0;">记住我</el-checkbox>
-      <!-- <el-form-item style="width:100%;">
+      <el-form-item style="width:100%;">
         <el-button
           :loading="loading"
           size="medium"
@@ -51,20 +51,34 @@
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
-      </el-form-item>-->
+      </el-form-item>
     </el-form>
+    <!--  footer  -->
+    <div v-if="$store.state.settings.showFooter" id="el-login-footer">
+      <span v-html="$store.state.settings.footerTxt" />
+      <span>⋅</span>
+      <a href="http://www.beian.miit.gov.cn" target="_blank">{{ $store.state.settings.caseNumber }}</a>
+    </div>
   </div>
 </template>
 
 <script>
-import { getCodeImg } from "../api/login";
+import { encrypt } from "../utils/rsaEncrypt";
+import Config from "../settings";
+import { login, getCodeImg } from "../api/login";
+import Cookies from "js-cookie";
+import { setToken } from "../utils/auth";
 
 export default {
   name: "Login",
   data() {
     return {
-      codeUrl: "",
+      codeUrl: "", // validate code
+      loading: false,
+      cookiePass: "", // password in cookie
+      // redirect : undefined,
       loginForm: {
+        // login form entity
         username: "admin",
         password: "123456",
         rememberMe: false,
@@ -72,26 +86,93 @@ export default {
         uuid: ""
       },
       loginRules: {
+        // validate rules
         username: [
           { required: true, trigger: "blur", message: "用户名不能为空" }
         ],
         password: [
           { required: true, trigger: "blur", message: "密码不能为空" }
         ],
-        code: [
-          { required: true, trigger: "change", message: "验证码不能为空" }
-          ]
+        code: [{ required: true, trigger: "change", message: "验证码不能为空" }]
       }
     };
   },
+  // watch: {
+  //   $route: {
+  //     handler: function(route) {
+  //       this.redirect = route.query && route.query.redirect
+  //     },
+  //     immediate: true
+  //   }
+  // },
   created() {
+    // load validate code after page created
     this.getCode();
   },
   methods: {
+    // fetch the validate code img
     getCode() {
       getCodeImg().then(res => {
         this.codeUrl = res.img;
         this.loginForm.uuid = res.uuid;
+      });
+    },
+    // hanle login
+    handleLogin() {
+      this.$refs.loginForm.validate(valid => {
+        const rememberMe = this.loginForm.rememberMe;
+        // submit user info
+        const user = {
+          username: this.loginForm.username,
+          password: this.loginForm.password,
+          // rememberMe: this.loginForm.rememberMe,
+          code: this.loginForm.code,
+          uuid: this.loginForm.uuid
+        };
+        // rewrite password using cookie's
+        if (user.password !== this.cookiePass) {
+          user.password = encrypt(user.password);
+        }
+
+        if (valid) {
+          this.loading = true;
+          if (rememberMe) {
+            Cookies.set("username", user.username, {
+              expires: Config.passCookieExpires
+            });
+            Cookies.set("password", user.password, {
+              expires: Config.passCookieExpires
+            });
+            Cookies.set("rememberMe", rememberMe, {
+              expires: Config.passCookieExpires
+            });
+          } else {
+            Cookies.remove("username");
+            Cookies.remove("password");
+            Cookies.remove("rememberMe");
+          }
+          login(user)
+            .then(res => {
+              // store the user info after invoke login api
+              setToken(res.token, rememberMe);
+              return this.$store.dispatch("Login", {
+                token: res.token,
+                user: res.user
+              });
+            })
+            .then(res => {
+              this.loading = false;
+              this.$router.push({ path: this.redirect || "/" });
+            })
+            .catch(() => {
+              // refresh validate code for login fail
+              this.loading = false;
+              this.getCode();
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
       });
     }
   }
@@ -137,7 +218,6 @@ export default {
 }
 .login-code {
   width: 33%;
-  display: inline-block;
   height: 38px;
   float: right;
   img {
