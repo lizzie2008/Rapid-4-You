@@ -25,7 +25,7 @@ export function logout() {
 
 export function getCodeImg() {
   return request({
-    url: '/auth/code',
+    url: '/vue-element-admin/user/loginCode',
     method: 'get'
   })
 }
