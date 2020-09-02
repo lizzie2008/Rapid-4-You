@@ -36,7 +36,7 @@
           <svg-icon slot="prefix" icon-class="valid-code" class="el-input__icon input-icon" />
         </el-input>
         <div class="login-code">
-          <img :src="codeUrl" @click="getCode">
+          <img :src="codeUrl" @click="refreshCaptcha">
         </div>
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0 0 25px 0;">记住我</el-checkbox>
@@ -63,8 +63,8 @@
 </template>
 
 <script>
-import { getCodeImg } from '@/api/user'
-// import { encrypt } from '@/utils/rsaEncrypt'
+import { encrypt } from '@/utils/rsaEncrypt'
+import { captcha } from '@/api/user'
 import Config from '@/settings'
 import Cookies from 'js-cookie'
 
@@ -72,13 +72,12 @@ export default {
   name: 'Login',
   data() {
     return {
-      codeUrl: '',
       config: Config,
       cookiePass: '',
+      codeUrl: '',
       loginForm: {
         username: 'admin',
-        password: '23456',
-        rememberMe: false,
+        password: '123456',
         code: '',
         uuid: ''
       },
@@ -89,10 +88,14 @@ export default {
         password: [
           { required: true, trigger: 'blur', message: '密码不能为空' }
         ],
-        code: [{ required: true, trigger: 'change', message: '验证码不能为空' }]
+        code: [
+          { required: true, trigger: 'change', message: '验证码不能为空' }
+        ]
       },
       loading: false,
-      redirect: undefined
+      showDialog: false,
+      redirect: undefined,
+      otherQuery: {}
     }
   },
   watch: {
@@ -108,9 +111,7 @@ export default {
     }
   },
   created() {
-    // window.addEventListener('storage', this.afterQRScan)
-    this.getCode()
-    this.getCookie()
+    this.refreshCaptcha()
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -120,11 +121,10 @@ export default {
     }
   },
   methods: {
-    getCode() {
-      getCodeImg().then(res => {
-        const { data } = res
-        this.codeUrl = data.img
-        this.loginForm.uuid = data.uuid
+    refreshCaptcha() {
+      captcha().then((res) => {
+        this.codeUrl = res.img
+        this.loginForm.uuid = res.uuid
       })
     },
     getCookie() {
@@ -141,26 +141,26 @@ export default {
         code: ''
       }
     },
-    checkCapslock(e) {
-      const { key } = e
-      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
-    },
-    showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
-    },
+    // checkCapslock(e) {
+    //   const { key } = e;
+    //   this.capsTooltip = key && key.length === 1 && key >= "A" && key <= "Z";
+    // },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate((valid) => {
+        const userLogin = {
+          username: this.loginForm.username.trim(),
+          password: this.loginForm.password,
+          code: this.loginForm.code,
+          uuid: this.loginForm.uuid
+        }
+        if (userLogin.password !== this.cookiePass) {
+          userLogin.password = encrypt(userLogin.password)
+        }
+
         if (valid) {
           this.loading = true
           this.$store
-            .dispatch('user/login', this.loginForm)
+            .dispatch('user/login', userLogin)
             .then(() => {
               this.$router.push({
                 path: this.redirect || '/',

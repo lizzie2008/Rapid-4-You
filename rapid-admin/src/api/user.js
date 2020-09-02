@@ -2,30 +2,29 @@ import request from '@/utils/request'
 
 export function login(data) {
   return request({
-    url: '/vue-element-admin/user/login',
+    url: '/api/auth/login',
     method: 'post',
     data
   })
 }
 
-export function getInfo(token) {
+export function getInfo() {
   return request({
-    url: '/vue-element-admin/user/info',
-    method: 'get',
-    params: { token }
+    url: '/api/users/info',
+    method: 'get'
   })
 }
 
 export function logout() {
   return request({
-    url: '/vue-element-admin/user/logout',
-    method: 'post'
+    url: '/api/auth/logout',
+    method: 'delete'
   })
 }
 
-export function getCodeImg() {
+export function captcha() {
   return request({
-    url: '/vue-element-admin/user/loginCode',
+    url: '/api/auth/captcha',
     method: 'get'
   })
 }
