@@ -92,8 +92,16 @@ export const constantRoutes = [
         meta: { title: 'Profile', icon: 'user', noCache: true }
       }
     ]
-  },
+  }
 
+]
+
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = [
+  /** when your routing map is too long, you can split it into small modules **/
   {
     path: '/system',
     component: Layout,
@@ -117,16 +125,7 @@ export const constantRoutes = [
         meta: { title: '角色管理', icon: 'el-icon-user-solid' }
       }
     ]
-  }
-]
-
-/**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
- */
-export const asyncRoutes = [
-  /** when your routing map is too long, you can split it into small modules **/
-
+  },
   {
     path: 'api-guide',
     component: Layout,

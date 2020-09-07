@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 import { Message, Notification } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
@@ -21,6 +22,13 @@ service.interceptors.request.use(
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
       config.headers['Authorization'] = getToken()
+    }
+
+    // 如果是get请求的数组参数，序列化转换：p=[a,b,c] => p=a,b,c
+    if (config.method === 'get') {
+      config.paramsSerializer = function(params) {
+        return qs.stringify(params, { indices: false })
+      }
     }
     return config
   },
