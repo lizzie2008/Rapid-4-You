@@ -53,15 +53,19 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
-    if (res.code && res.code !== 0 && res.data) {
-      Message({
-        message: res.msg || 'Error',
-        type: 'error',
-        duration: 5 * 1000
-      })
-      return Promise.reject(new Error(res.msg || 'Error'))
+    if (Object.prototype.hasOwnProperty.call(res, 'code')) {
+      if (res.code !== 0 && res.data) {
+        Message({
+          message: res.msg || 'Error',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return Promise.reject(new Error(res.msg || 'Error'))
+      } else {
+        return Promise.resolve(res.data)
+      }
     } else {
-      return Promise.resolve(res.data)
+      return Promise.resolve(res)
     }
   },
   error => {

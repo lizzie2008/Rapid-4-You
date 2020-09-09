@@ -2,14 +2,12 @@ import store from '@/store'
 
 function checkPermission(el, binding) {
   const { value } = binding
-  const roles = store.getters && store.getters.roles
+  const permissions = store.getters && store.getters.permissions
 
   if (value && value instanceof Array) {
     if (value.length > 0) {
-      const permissionRoles = value
-
-      const hasPermission = roles.some(role => {
-        return permissionRoles.includes(role)
+      const hasPermission = permissions.some(permission => {
+        return value.includes(permission)
       })
 
       if (!hasPermission) {
@@ -17,7 +15,7 @@ function checkPermission(el, binding) {
       }
     }
   } else {
-    throw new Error(`need roles! Like v-permission="['admin','editor']"`)
+    throw new Error(`使用方式： v-permission="['admin','editor']"`)
   }
 }
 

@@ -19,6 +19,8 @@ import './permission' // permission control
 import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
+// 权限指令
+import permission from './directive/permission'
 
 /**
  * If you don't want to use mock-server
@@ -32,7 +34,7 @@ import * as filters from './filters' // global filters
 //   const { mockXHR } = require('../mock')
 //   mockXHR()
 // }
-
+Vue.use(permission)
 Vue.use(Element, {
   size: Cookies.get('size') || 'small' // set element-ui default size
   // locale: enLang // 如果使用中文，无需设置，请删除
