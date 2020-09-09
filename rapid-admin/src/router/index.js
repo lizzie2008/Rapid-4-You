@@ -115,14 +115,14 @@ export const asyncRoutes = [
       {
         path: 'menu',
         component: () => import('@/views/system/menu/index'),
-        name: 'MenuList',
+        name: 'Menu',
         meta: { title: '菜单管理', icon: 'el-icon-s-order' }
       },
       {
-        path: 'role',
-        component: () => import('@/views/system/menu/index'),
-        name: 'RoleList',
-        meta: { title: '角色管理', icon: 'el-icon-user-solid' }
+        path: 'dept',
+        component: () => import('@/views/system/dept/index'),
+        name: 'Dept',
+        meta: { title: '部门管理', icon: 'el-icon-user-solid' }
       }
     ]
   },

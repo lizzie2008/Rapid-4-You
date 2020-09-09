@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import request from '@/utils/request'
+import { query, download } from '@/api/common'
 import { downloadFile } from '@/utils/excel'
 
 /**
@@ -27,6 +27,8 @@ function CRUD(options) {
     query: {},
     // 查询数据的参数
     params: {},
+    // 是否分页查询
+    showOnPage: true,
     // Form 表单
     form: {},
     // 重置表单
@@ -131,7 +133,7 @@ function CRUD(options) {
       return new Promise((resolve, reject) => {
         crud.loading = true
         // 请求数据
-        request({ url: crud.url, params: crud.getQueryParams(), method: 'get' }).then(data => {
+        query(crud.url, crud.getQueryParams()).then(data => {
           const table = crud.getTable()
           if (table && table.lazy) { // 懒加载子节点数据，清掉已加载的数据
             table.store.states.treeData = {}
@@ -329,7 +331,7 @@ function CRUD(options) {
      */
     doExport() {
       crud.downloadLoading = true
-      request({ url: crud.url + '/download', params: crud.getQueryParams(), method: 'get', responseType: 'blob' }).then(result => {
+      download(crud.url + '/download', crud.getQueryParams()).then(result => {
         downloadFile(result, crud.title + '数据', 'xlsx')
         crud.downloadLoading = false
       }).catch(() => {
@@ -347,12 +349,19 @@ function CRUD(options) {
       Object.keys(crud.params).length !== 0 && Object.keys(crud.params).forEach(item => {
         if (crud.params[item] === null || crud.params[item] === '') crud.params[item] = undefined
       })
-      return {
-        page: crud.page.page - 1,
-        size: crud.page.size,
-        sort: crud.sort,
-        ...crud.query,
-        ...crud.params
+      if (crud.showOnPage) {
+        return {
+          page: crud.page.page - 1,
+          size: crud.page.size,
+          sort: crud.sort,
+          ...crud.query,
+          ...crud.params
+        }
+      } else {
+        return {
+          ...crud.query,
+          ...crud.params
+        }
       }
     },
     // 当前页改变

@@ -31,6 +31,9 @@
       :data="crud.data"
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
       row-key="id"
+      @select="crud.selectChange"
+      @select-all="crud.selectAllChange"
+      @selection-change="crud.selectionChangeHandler"
     >
       <el-table-column type="selection" width="55" />
       <el-table-column :show-overflow-tooltip="true" label="菜单标题" width="125px" prop="title" />
@@ -242,11 +245,18 @@ const defaultForm = {
 }
 export default {
   name: 'Menu',
-  components: { rrOperation, crudOperation, udOperation, IconSelect, Treeselect },
+  components: {
+    rrOperation,
+    crudOperation,
+    udOperation,
+    IconSelect,
+    Treeselect
+  },
   cruds() {
     return CRUD({
       title: '菜单',
       url: 'api/menus',
+      showOnPage: false,
       crudMethod: { ...crudMenu }
     })
   },
