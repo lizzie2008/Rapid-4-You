@@ -79,17 +79,11 @@ fabric.properties
 .idea/misc.xml
 .idea/vcs.xml
 rapid-api-common/rapid-api-common.iml
-rapid-api-common/src/
 rapid-api-common/target/
 rapid-api-domain/rapid-api-domain.iml
-rapid-api-domain/src/
 rapid-api-domain/target/
 rapid-api-service/rapid-api-service.iml
-rapid-api-service/src/
 rapid-api-service/target/
 rapid-api-web/rapid-api-web.iml
-rapid-api-web/src/main/java/
-rapid-api-web/src/test/
 rapid-api-web/target/
 rapid-api.iml
-src/

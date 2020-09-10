@@ -8,26 +8,21 @@
           <el-input
             v-model="query.name"
             clearable
-            size="small"
             placeholder="输入部门名称搜索"
-            style="width: 200px;"
-            class="filter-item"
-            @keyup.enter.native="crud.toQuery"
           />
         </el-form-item>
         <el-form-item>
-          <date-range-picker v-model="query.createTime" class="date-item" />
+          <el-date-picker
+            v-model="query.createTime"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            value-format=" yyyy-MM-dd HH:mm:ss"
+          />
         </el-form-item>
         <el-form-item>
-          <el-select
-            v-model="query.enabled"
-            clearable
-            size="small"
-            placeholder="状态"
-            class="filter-item"
-            style="width: 90px"
-            @change="crud.toQuery"
-          >
+          <el-select v-model="query.enabled" clearable placeholder="状态">
             <el-option
               v-for="item in enabledTypeOptions"
               :key="item.key"
@@ -66,8 +61,8 @@
         </el-form-item>
         <el-form-item label="顶级部门">
           <el-radio-group v-model="form.isTop" style="width: 140px">
-            <el-radio label="1">是</el-radio>
-            <el-radio label="0">否</el-radio>
+            <el-radio :label="true">是</el-radio>
+            <el-radio :label="false">否</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="状态" prop="enabled">
@@ -78,7 +73,7 @@
             :label="item.value"
           >{{ item.label }}</el-radio>
         </el-form-item>
-        <el-form-item v-if="form.isTop === '0'" style="margin-bottom: 0;" label="上级部门" prop="pid">
+        <el-form-item v-if="!form.isTop" style="margin-bottom: 0;" label="上级部门" prop="pid">
           <treeselect
             v-model="form.pid"
             :load-options="loadDepts"
@@ -122,7 +117,7 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建日期">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime) }}</span>
+          <span>{{ scope.row.createTime | timeFormat('YYYY-MM-DD') }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -158,7 +153,7 @@ import udOperation from '@/components/Crud/UD.operation'
 const defaultForm = {
   id: null,
   name: null,
-  isTop: '1',
+  isTop: true,
   subCount: 0,
   pid: null,
   deptSort: 999,
@@ -176,6 +171,7 @@ export default {
     return CRUD({
       title: '部门',
       url: 'api/dept',
+      showOnPage: false,
       crudMethod: { ...crudDept }
     })
   },
@@ -219,9 +215,9 @@ export default {
     // 新增与编辑前做的操作
     [CRUD.HOOK.afterToCU](crud, form) {
       if (form.pid !== null) {
-        form.isTop = '0'
+        form.isTop = false
       } else if (form.id !== null) {
-        form.isTop = '1'
+        form.isTop = true
       }
       form.enabled = `${form.enabled}`
       if (form.id != null) {
@@ -334,8 +330,6 @@ export default {
   height: 30px;
   line-height: 30px;
 }
-</style>
-<style rel="stylesheet/scss" lang="scss" scoped>
 ::v-deep .el-input-number .el-input__inner {
   text-align: left;
 }

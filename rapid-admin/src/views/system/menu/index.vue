@@ -36,14 +36,16 @@
       @selection-change="crud.selectionChangeHandler"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column :show-overflow-tooltip="true" label="菜单标题" width="125px" prop="title" />
+      <el-table-column label="菜单标题" prop="title" width="125px" :show-overflow-tooltip="true" />
       <el-table-column prop="icon" label="图标" align="center" width="60px">
         <template slot-scope="scope">
           <svg-icon :icon-class="scope.row.icon ? scope.row.icon : ''" />
         </template>
       </el-table-column>
       <el-table-column prop="menuSort" align="center" label="排序">
-        <template slot-scope="scope">{{ scope.row.menuSort }}</template>
+        <template slot-scope="scope">
+          {{ scope.row.menuSort }}
+        </template>
       </el-table-column>
       <el-table-column :show-overflow-tooltip="true" prop="permission" label="权限标识" />
       <el-table-column :show-overflow-tooltip="true" prop="component" label="组件路径" />
@@ -65,13 +67,13 @@
           <span v-else>是</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建日期" width="135px">
+      <el-table-column prop="createTime" label="创建日期">
         <template slot-scope="scope">
           <span>{{ scope.row.createTime | timeFormat('YYYY-MM-DD') }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        v-permission="['admin','menu:edit','menu:del']"
+        v-permission="['admin','dept:edit','dept:del']"
         label="操作"
         width="130px"
         align="center"
@@ -81,6 +83,7 @@
           <udOperation
             :data="scope.row"
             :permission="permission"
+            :disabled-dle="scope.row.id === 1"
             msg="确定删除吗,如果存在下级节点则一并删除，此操作不能撤销！"
           />
         </template>
@@ -331,13 +334,13 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-::v-deep .el-input-number .el-input__inner {
-  text-align: left;
-}
 ::v-deep .vue-treeselect__control,
 ::v-deep .vue-treeselect__placeholder,
 ::v-deep .vue-treeselect__single-value {
   height: 30px;
   line-height: 30px;
+}
+::v-deep .el-input-number .el-input__inner {
+  text-align: left;
 }
 </style>
