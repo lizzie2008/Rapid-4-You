@@ -8,7 +8,7 @@
       label-width="0px"
       class="login-form"
     >
-      <h3 class="title">{{ config.title }}</h3>
+      <h3 class="title">{{ $conf.title }}</h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -54,10 +54,10 @@
       </el-form-item>
     </el-form>
     <!--  底部  -->
-    <div v-if="config.showFooter" class="el-login-footer">
-      <span v-html="config.footerTxt" />
+    <div v-if="$conf.showFooter" class="el-login-footer">
+      <span v-html="$conf.footerTxt" />
       <span>⋅</span>
-      <a href="http://www.beian.miit.gov.cn" target="_blank">{{ config.caseNumber }}</a>
+      <a href="http://www.beian.miit.gov.cn" target="_blank">{{ $conf.caseNumber }}</a>
     </div>
   </div>
 </template>
@@ -65,14 +65,12 @@
 <script>
 import { encrypt } from '@/utils/rsaEncrypt'
 import { captcha } from '@/api/user'
-import Config from '@/settings'
 import Cookies from 'js-cookie'
 
 export default {
   name: 'Login',
   data() {
     return {
-      config: Config,
       cookiePass: '',
       codeUrl: '',
       loginForm: {

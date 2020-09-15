@@ -27,43 +27,38 @@
       <el-col :xs="15" :sm="18" :md="19" :lg="20" :xl="20">
         <!--工具栏-->
         <div class="head-container">
-          <div v-if="crud.props.searchToggle">
-            <!-- 搜索 -->
-            <el-input
-              v-model="query.blurry"
-              clearable
-              size="small"
-              placeholder="输入名称或者邮箱搜索"
-              style="width: 200px;"
-              class="filter-item"
-              @keyup.enter.native="crud.toQuery"
-            />
-            <el-date-picker
-              v-model="query.createTime"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              value-format=" yyyy-MM-dd HH:mm:ss"
-            />
-            <el-select
-              v-model="query.enabled"
-              clearable
-              size="small"
-              placeholder="状态"
-              class="filter-item"
-              style="width: 90px"
-              @change="crud.toQuery"
-            >
-              <el-option
-                v-for="item in enabledTypeOptions"
-                :key="item.key"
-                :label="item.display_name"
-                :value="item.key"
+          <el-form v-if="crud.props.searchToggle" :inline="true">
+            <el-form-item>
+              <el-input v-model="query.blurry" clearable placeholder="输入名称或者邮箱搜索" />
+            </el-form-item>
+            <el-form-item>
+              <el-date-picker
+                v-model="query.createTime"
+                type="daterange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format=" yyyy-MM-dd HH:mm:ss"
               />
-            </el-select>
-            <rrOperation />
-          </div>
+            </el-form-item>
+            <el-form-item>
+              <el-select
+                v-model="query.enabled"
+                clearable
+                placeholder="状态"
+              >
+                <el-option
+                  v-for="item in enabledTypeOptions"
+                  :key="item.key"
+                  :label="item.display_name"
+                  :value="item.key"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <rrOperation />
+            </el-form-item>
+          </el-form>
           <crudOperation show :permission="permission" />
         </div>
         <!--表单渲染-->
@@ -192,7 +187,7 @@
           </el-table-column>
           <el-table-column :show-overflow-tooltip="true" prop="createTime" width="135" label="创建日期">
             <template slot-scope="scope">
-              <span>{{ parseTime(scope.row.createTime) }}</span>
+              <span>{{ scope.row.createTime | timeFormat('YYYY-MM-DD') }}</span>
             </template>
           </el-table-column>
           <el-table-column

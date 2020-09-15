@@ -135,6 +135,12 @@ export const asyncRoutes = [
         component: () => import('@/views/system/user/index'),
         name: 'User',
         meta: { title: '用户管理', icon: 'el-icon-user-solid' }
+      },
+      {
+        path: 'role',
+        component: () => import('@/views/system/role/index'),
+        name: 'Role',
+        meta: { title: '角色管理', icon: 'el-icon-user-solid' }
       }
     ]
   },

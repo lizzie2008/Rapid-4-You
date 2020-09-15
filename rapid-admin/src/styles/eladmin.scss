@@ -115,3 +115,8 @@
 .el-tabs{
   margin-bottom: 25px;
 }
+
+// 修复问题：el-table 最后一列操作列设置为fixed后，最后一行有时候显示不完，感觉被遮挡了一半
+.el-table >.el-table__fixed-right {
+  height: 100% !important; //设置高优先，以覆盖内联样式
+}

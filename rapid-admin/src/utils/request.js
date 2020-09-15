@@ -71,7 +71,7 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error) // for debug
     const res = error.response
-    if (!res) Notification.error('无法从后台服务器返回数据')
+    if (!res) Notification.error('无法从后台服务器返回数据，请联系管理员！')
     if (res.status === 401 || res.status === 403) {
       Notification.warning('当前登录信息已失效，请重新登录')
       // 重登录
@@ -79,9 +79,15 @@ service.interceptors.response.use(
         // location.reload()
         router.push('login')
       })
+    } else if (res.status === 404) {
+      Message({
+        message: '后台服务器不存在此接口，请联系管理员！',
+        type: 'error',
+        duration: 5 * 1000
+      })
     } else {
       Message({
-        message: res.data.message || '未知错误',
+        message: res.data.message || '未知错误，请联系管理员！',
         type: 'error',
         duration: 5 * 1000
       })
