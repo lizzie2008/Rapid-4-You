@@ -42,7 +42,7 @@ public class RoleController {
 
     @ApiOperation("获取单个role")
     @GetMapping(value = "/{id}")
-    @PreAuthorize("@el.check('roles:list')")
+    @PreAuthorize("@el.check('role:list')")
     public Result query(@PathVariable Long id){
         return Result.success(roleService.findById(id));
     }
@@ -57,7 +57,7 @@ public class RoleController {
 
     @ApiOperation("返回全部的角色")
     @GetMapping(value = "/all")
-    @PreAuthorize("@el.check('roles:list','user:add','user:edit')")
+    @PreAuthorize("@el.check('role:list','user:add','user:edit')")
     public Result query(){
         return Result.success(roleService.queryAll());
     }
@@ -65,7 +65,7 @@ public class RoleController {
     @Log("查询角色")
     @ApiOperation("查询角色")
     @GetMapping
-    @PreAuthorize("@el.check('roles:list')")
+    @PreAuthorize("@el.check('role:list')")
     public Result query(RoleQueryCriteria criteria, Pageable pageable){
         return Result.success(roleService.queryAll(criteria,pageable));
     }
@@ -79,7 +79,7 @@ public class RoleController {
     @Log("新增角色")
     @ApiOperation("新增角色")
     @PostMapping
-    @PreAuthorize("@el.check('roles:add')")
+    @PreAuthorize("@el.check('role:add')")
     public Result create(@Validated @RequestBody Role resources){
         if (resources.getId() != null) {
             throw new BadRequestException("A new "+ ENTITY_NAME +" cannot already have an ID");
@@ -92,7 +92,7 @@ public class RoleController {
     @Log("修改角色")
     @ApiOperation("修改角色")
     @PutMapping
-    @PreAuthorize("@el.check('roles:edit')")
+    @PreAuthorize("@el.check('role:edit')")
     public Result update(@Validated(Role.Update.class) @RequestBody Role resources){
         getLevels(resources.getLevel());
         roleService.update(resources);
@@ -102,7 +102,7 @@ public class RoleController {
     @Log("修改角色菜单")
     @ApiOperation("修改角色菜单")
     @PutMapping(value = "/menu")
-    @PreAuthorize("@el.check('roles:edit')")
+    @PreAuthorize("@el.check('role:edit')")
     public Result updateMenu(@RequestBody Role resources){
         RoleDto role = roleService.findById(resources.getId());
         getLevels(role.getLevel());
@@ -113,7 +113,7 @@ public class RoleController {
     @Log("删除角色")
     @ApiOperation("删除角色")
     @DeleteMapping
-    @PreAuthorize("@el.check('roles:del')")
+    @PreAuthorize("@el.check('role:del')")
     public Result delete(@RequestBody Set<Long> ids){
         for (Long id : ids) {
             RoleDto role = roleService.findById(id);

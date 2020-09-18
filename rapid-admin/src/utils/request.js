@@ -3,7 +3,7 @@ import qs from 'qs'
 import { Message, Notification } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-import router from '@/router'
+import Cookies from 'js-cookie'
 
 // create an axios instance
 const service = axios.create({
@@ -73,11 +73,11 @@ service.interceptors.response.use(
     const res = error.response
     if (!res) Notification.error('无法从后台服务器返回数据，请联系管理员！')
     if (res.status === 401 || res.status === 403) {
-      Notification.warning('当前登录信息已失效，请重新登录')
       // 重登录
-      store.dispatch('user/resetToken').then(() => {
-        // location.reload()
-        router.push('login')
+      store.dispatch('user/logout').then(() => {
+        // 用户登录界面提示
+        Cookies.set('SessionExpired', true)
+        location.reload()
       })
     } else if (res.status === 404) {
       Message({

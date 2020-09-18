@@ -110,6 +110,7 @@ export default {
   },
   created() {
     this.refreshCaptcha()
+    this.checkSessionExpired()
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -168,6 +169,7 @@ export default {
             })
             .catch(() => {
               this.loading = false
+              this.refreshCaptcha()
             })
         } else {
           console.log('error submit!!')
@@ -182,6 +184,18 @@ export default {
         }
         return acc
       }, {})
+    },
+    checkSessionExpired() {
+      const sessionExpired = Cookies.get('SessionExpired') !== undefined
+      if (sessionExpired) {
+        this.$notify({
+          title: '提示',
+          message: '当前登录状态已过期，请重新登录！',
+          type: 'warning',
+          duration: 5000
+        })
+        Cookies.remove('SessionExpired')
+      }
     }
   }
 }
