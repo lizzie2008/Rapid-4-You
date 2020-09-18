@@ -41,6 +41,8 @@ public class MenuDto extends BaseDTO implements Serializable {
 
     private String icon;
 
+    private String redirect;
+
     public Boolean getHasChildren() {
         return subCount > 0;
     }

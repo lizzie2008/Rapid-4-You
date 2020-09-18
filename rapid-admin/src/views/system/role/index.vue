@@ -222,9 +222,9 @@ export default {
       menuIds: [],
       depts: [],
       permission: {
-        add: ['admin', 'roles:add'],
-        edit: ['admin', 'roles:edit'],
-        del: ['admin', 'roles:del']
+        add: ['admin', 'role:add'],
+        edit: ['admin', 'role:edit'],
+        del: ['admin', 'role:del']
       },
       rules: {
         name: [{ required: true, message: '请输入名称', trigger: 'blur' }],

@@ -40,7 +40,7 @@ const actions = {
   },
 
   // 获取用户信息
-  getInfo({ commit, state }) {
+  getInfo({ commit }) {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
         const { user, permissions, dataScopes } = response

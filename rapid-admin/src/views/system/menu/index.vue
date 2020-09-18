@@ -160,8 +160,15 @@
         <el-form-item v-if="form.type.toString() !== '2'" label="菜单标题" prop="title">
           <el-input
             v-model="form.title"
-            :style=" form.type.toString() === '0' ? 'width: 450px' : 'width: 178px'"
+            style="width: 178px;"
             placeholder="菜单标题"
+          />
+        </el-form-item>
+        <el-form-item v-if="form.type.toString() === '0'" label="重定向" prop="redirect">
+          <el-input
+            v-model="form.redirect"
+            style="width: 178px;"
+            placeholder="重定向"
           />
         </el-form-item>
         <el-form-item v-if="form.type.toString() === '2'" label="按钮名称" prop="title">
@@ -233,6 +240,7 @@ import { LOAD_CHILDREN_OPTIONS } from '@riophae/vue-treeselect'
 const defaultForm = {
   id: null,
   title: null,
+  redirect: null,
   menuSort: 999,
   path: null,
   component: null,

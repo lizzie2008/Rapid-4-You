@@ -93,70 +93,59 @@ export const constantRoutes = [
       }
     ]
   }
+  // {
+  //   path: '/system',
+  //   component: Layout,
+  //   redirect: '/system/menu',
+  //   name: 'System',
+  //   meta: {
+  //     title: '系统管理',
+  //     icon: 'el-icon-s-tools'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'menu',
+  //       component: () => import('@/views/system/menu/index'),
+  //       name: 'Menu',
+  //       meta: { title: '菜单管理', icon: 'el-icon-s-order' }
+  //     },
+  //     {
+  //       path: 'dept',
+  //       component: () => import('@/views/system/dept/index'),
+  //       name: 'Dept',
+  //       meta: { title: '部门管理', icon: 'el-icon-user-solid' }
+  //     },
+  //     {
+  //       path: 'job',
+  //       component: () => import('@/views/system/job/index'),
+  //       name: 'Job',
+  //       meta: { title: '岗位管理', icon: 'el-icon-user-solid' }
+  //     },
+  //     {
+  //       path: 'user',
+  //       component: () => import('@/views/system/user/index'),
+  //       name: 'User',
+  //       meta: { title: '用户管理', icon: 'el-icon-user-solid' }
+  //     },
+  //     {
+  //       path: 'role',
+  //       component: () => import('@/views/system/role/index'),
+  //       name: 'Role',
+  //       meta: { title: '角色管理', icon: 'el-icon-user-solid' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: 'api-guide',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: process.env.VUE_APP_BASE_API + '/doc.html',
+  //       meta: { title: '接口文档', icon: 'link' }
+  //     }
+  //   ]
+  // },
 
-]
-
-/**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
- */
-export const asyncRoutes = [
-  /** when your routing map is too long, you can split it into small modules **/
-  {
-    path: '/system',
-    component: Layout,
-    redirect: '/system/menu',
-    name: 'System',
-    meta: {
-      title: '系统管理',
-      icon: 'el-icon-s-tools'
-    },
-    children: [
-      {
-        path: 'menu',
-        component: () => import('@/views/system/menu/index'),
-        name: 'Menu',
-        meta: { title: '菜单管理', icon: 'el-icon-s-order' }
-      },
-      {
-        path: 'dept',
-        component: () => import('@/views/system/dept/index'),
-        name: 'Dept',
-        meta: { title: '部门管理', icon: 'el-icon-user-solid' }
-      },
-      {
-        path: 'job',
-        component: () => import('@/views/system/job/index'),
-        name: 'Job',
-        meta: { title: '岗位管理', icon: 'el-icon-user-solid' }
-      },
-      {
-        path: 'user',
-        component: () => import('@/views/system/user/index'),
-        name: 'User',
-        meta: { title: '用户管理', icon: 'el-icon-user-solid' }
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/system/role/index'),
-        name: 'Role',
-        meta: { title: '角色管理', icon: 'el-icon-user-solid' }
-      }
-    ]
-  },
-  {
-    path: 'api-guide',
-    component: Layout,
-    children: [
-      {
-        path: process.env.VUE_APP_BASE_API + '/doc.html',
-        meta: { title: '接口文档', icon: 'link' }
-      }
-    ]
-  },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({

@@ -23,6 +23,9 @@ import tech.lancelot.utils.ValidationUtil;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author lancelot
+ */
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "dict")
@@ -75,6 +78,6 @@ public class DictDetailServiceImpl implements DictDetailService {
 
     public void delCaches(DictDetail dictDetail){
         Dict dict = dictRepository.findById(dictDetail.getDict().getId()).orElseGet(Dict::new);
-        redisUtils.del("dept::name:" + dict.getName());
+        redisUtils.del("dict::name:" + dict.getName());
     }
 }

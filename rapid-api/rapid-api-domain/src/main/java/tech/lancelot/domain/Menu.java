@@ -65,6 +65,9 @@ public class Menu extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "是否隐藏")
     private Boolean hidden;
 
+    @ApiModelProperty(value = "重定向")
+    private String redirect;
+
     @ApiModelProperty(value = "上级菜单")
     private Long pid;
 
