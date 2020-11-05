@@ -6,8 +6,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import tech.lancelot.properties.SecurityProperties;
-import tech.lancelot.service.impl.OnlineUserService;
-import tech.lancelot.service.impl.UserCacheClean;
+import tech.lancelot.service.sys.impl.OnlineUserService;
+import tech.lancelot.service.sys.impl.UserCacheClean;
 
 /**
  * @author lancelot

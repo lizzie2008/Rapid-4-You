@@ -17,17 +17,13 @@ package tech.lancelot.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-import tech.lancelot.domain.Log;
-import tech.lancelot.service.LogService;
-
-import javax.servlet.http.HttpServletRequest;
+import tech.lancelot.domain.sys.Log;
+import tech.lancelot.service.sys.LogService;
 
 /**
  * @author Zheng Jie

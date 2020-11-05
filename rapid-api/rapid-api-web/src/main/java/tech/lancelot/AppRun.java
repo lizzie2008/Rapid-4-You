@@ -27,6 +27,8 @@ import tech.lancelot.utils.SpringContextHolder;
 public class AppRun {
 
     public static void main(String[] args) {
+        //同时整合 Redis 和 ES 时，解决冲突
+        System.setProperty("es.set.netty.runtime.available.processors","false");
         SpringApplication.run(AppRun.class, args);
     }
 
