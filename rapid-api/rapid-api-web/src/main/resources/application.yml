@@ -59,7 +59,10 @@ spring:
     password:
     #连接超时时间
     timeout: 5000
-
+  data:
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: 182.92.103.188:9300
 #jwt
 jwt:
   header: Authorization
@@ -131,3 +134,6 @@ file:
 #邮箱验证码有效时间/秒
 code:
   expiration: 300
+
+
+

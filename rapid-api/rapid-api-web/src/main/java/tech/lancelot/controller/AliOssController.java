@@ -8,24 +8,19 @@ import com.aliyun.oss.model.ObjectListing;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import tech.lancelot.annotations.Log;
-import tech.lancelot.annotations.restful.AnonymousGetMapping;
 import tech.lancelot.dto.AliOssDto;
 import tech.lancelot.utils.FileUtil;
 import tech.lancelot.utils.PageUtil;
-import tech.lancelot.utils.StringUtils;
 import tech.lancelot.vo.Result;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lancelot
@@ -39,6 +34,7 @@ public class AliOssController {
 
     @Log("获取OSS目录")
     @ApiOperation("获取OSS目录")
+    @GetMapping
     @PreAuthorize("@el.check('ali-oss:list')")
     public Result getFolders(@RequestParam(defaultValue = "") String prefix) {
 
