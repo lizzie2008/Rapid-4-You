@@ -1,8 +1,10 @@
 package tech.lancelot.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 
 /**
@@ -17,4 +19,10 @@ public class MenuMetaVo implements Serializable {
     private String icon;
 
     private Boolean noCache;
+
+    private Boolean affix;
+
+    private Boolean breadcrumb;
+
+    private String activeMenu;
 }

@@ -8,10 +8,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
-import tech.lancelot.dto.sys.OnlineUserDto;
+import tech.lancelot.dto.system.OnlineUserDto;
 import tech.lancelot.properties.SecurityProperties;
-import tech.lancelot.service.sys.impl.OnlineUserService;
-import tech.lancelot.service.sys.impl.UserCacheClean;
+import tech.lancelot.service.system.impl.OnlineUserService;
+import tech.lancelot.service.system.impl.UserCacheClean;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

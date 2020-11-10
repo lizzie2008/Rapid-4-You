@@ -8,10 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tech.lancelot.annotations.Log;
-import tech.lancelot.domain.sys.Job;
-import tech.lancelot.dto.sys.JobQueryCriteria;
+import tech.lancelot.domain.system.Job;
+import tech.lancelot.dto.system.JobQueryCriteria;
 import tech.lancelot.exceptions.BadRequestException;
-import tech.lancelot.service.sys.JobService;
+import tech.lancelot.service.system.JobService;
 import tech.lancelot.vo.Result;
 
 import javax.servlet.http.HttpServletResponse;

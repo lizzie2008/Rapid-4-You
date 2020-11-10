@@ -6,20 +6,54 @@
         <!-- 搜索 -->
         <el-form-item>
           <el-input
-            v-model="query.name"
+            v-model="query.blurry"
             clearable
-            placeholder="输入部门名称搜索"
+            placeholder="输入标题模糊搜索"
           />
         </el-form-item>
         <el-form-item>
-          <el-date-picker
-            v-model="query.createTime"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            value-format=" yyyy-MM-dd HH:mm:ss"
-          />
+          <el-select
+            v-model="query.blogType"
+            clearable
+            placeholder="按类型搜索"
+          >
+            <el-option
+              v-for="item in blogTypeOptions"
+              :key="item.key"
+              :label="item.display_name"
+              :value="item.key"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-select
+            v-model="query.categoryId"
+            clearable
+            placeholder="按分类搜索"
+          >
+            <el-option
+              v-for="item in categoryOptions"
+              :key="item.key"
+              :label="item.display_name"
+              :value="item.key"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-select
+            v-model="query.tagIds"
+            multiple
+            clearable
+            collapse-tags
+            placeholder="按标签搜索"
+          >
+            <el-option
+              v-for="item in tagOptions"
+              :key="item.key"
+              :label="item.display_name"
+              :value="item.key"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item>
           <rrOperation />
@@ -43,12 +77,20 @@
         width="300"
         :show-overflow-tooltip="true"
       />
-      <el-table-column label="分类" prop="title1" />
-      <el-table-column label="归档" prop="title2" />
-      <el-table-column label="标签" prop="title3" />
-      <el-table-column prop="createTime" label="创建日期">
+      <el-table-column label="类型">
         <template slot-scope="scope">
-          <span>{{ scope.row.createTime | timeFormat("YYYY-MM-DD") }}</span>
+          <template>
+            {{ scope.row.blogType | toEnumDesc(blogTypeOptions) }}
+          </template>
+        </template>
+      </el-table-column>
+      <el-table-column label="分类" prop="category.name" />
+      <el-table-column label="归档" prop="archive.name" />
+      <el-table-column label="标签" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <template>
+            {{ scope.row.tags.map((v) => v.name).join(" | ") }}
+          </template>
         </template>
       </el-table-column>
       <el-table-column
@@ -75,6 +117,8 @@
 
 <script>
 import crudArticle from '@/api/blog/article'
+import { getCategorys } from '@/api/blog/category'
+import { getTags } from '@/api/blog/tag'
 import CRUD, { presenter, header, form, crud } from '@/components/Crud/crud'
 import rrOperation from '@/components/Crud/RR.operation'
 import crudOperation from '@/components/Crud/CRUD.operation'
@@ -91,7 +135,7 @@ const defaultForm = {
   enabled: 'true'
 }
 export default {
-  name: 'Article',
+  name: 'ArticleList',
   components: {
     crudOperation,
     rrOperation,
@@ -102,7 +146,7 @@ export default {
     return CRUD({
       title: '文章',
       url: 'api/article',
-      showOnPage: false,
+      showOnPage: true,
       crudMethod: { ...crudArticle }
     })
   },
@@ -111,6 +155,13 @@ export default {
   dicts: [],
   data() {
     return {
+      blogTypeOptions: [
+        { key: 'NORMAL', display_name: '普通' },
+        { key: 'SUBJECT', display_name: '专题' },
+        { key: 'ABOUT', display_name: '关于' }
+      ],
+      categoryOptions: [],
+      tagOptions: [],
       articles: [],
       rules: {},
       permission: {
@@ -120,7 +171,28 @@ export default {
       }
     }
   },
-  methods: {}
+  created() {
+    this.crud.optShow.download = false
+
+    // 获取分类下拉
+    getCategorys().then((res) => {
+      this.categoryOptions = res.content.map(function(v) {
+        return { key: v.id, display_name: v.name }
+      })
+    })
+    // 获取标签下拉
+    getTags().then((res) => {
+      this.tagOptions = res.content.map(function(v) {
+        return { key: v.id, display_name: v.name }
+      })
+    })
+  },
+  methods: {
+    // 编辑前
+    [CRUD.HOOK.beforeToEdit](crud, article) {
+      this.$router.push('/blog/article/edit/' + article.id)
+    }
+  }
 }
 </script>
 

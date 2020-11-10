@@ -2,9 +2,14 @@ package tech.lancelot.dto.blog;
 
 import lombok.Getter;
 import lombok.Setter;
+import tech.lancelot.domain.blog.Archive;
 import tech.lancelot.domain.blog.Article;
+import tech.lancelot.domain.blog.Category;
+import tech.lancelot.domain.blog.Tag;
+import tech.lancelot.enums.BlogType;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 /**
  * @author lancelot
@@ -15,7 +20,7 @@ public class ArticleDto {
 
     private String id;
 
-    private Article.BlogType blogType;
+    private BlogType blogType;
 
     private Boolean isSticky ;
 
@@ -34,4 +39,10 @@ public class ArticleDto {
     private Integer commentSize = 0;
 
     private Integer likeSize = 0;
+
+    private Category category;
+
+    private Archive archive;
+
+    private Set<Tag> tags;
 }

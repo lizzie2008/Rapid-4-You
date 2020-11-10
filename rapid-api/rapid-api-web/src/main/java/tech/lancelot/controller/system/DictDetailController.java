@@ -10,11 +10,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tech.lancelot.annotations.Log;
-import tech.lancelot.domain.sys.DictDetail;
-import tech.lancelot.dto.sys.DictDetailDto;
-import tech.lancelot.dto.sys.DictDetailQueryCriteria;
+import tech.lancelot.domain.system.DictDetail;
+import tech.lancelot.dto.system.DictDetailDto;
+import tech.lancelot.dto.system.DictDetailQueryCriteria;
 import tech.lancelot.exceptions.BadRequestException;
-import tech.lancelot.service.sys.DictDetailService;
+import tech.lancelot.service.system.DictDetailService;
 import tech.lancelot.vo.Result;
 
 import java.util.HashMap;

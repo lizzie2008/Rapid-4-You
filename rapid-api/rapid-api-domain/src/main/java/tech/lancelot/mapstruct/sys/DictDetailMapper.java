@@ -2,8 +2,8 @@ package tech.lancelot.mapstruct.sys;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
-import tech.lancelot.domain.sys.DictDetail;
-import tech.lancelot.dto.sys.DictDetailDto;
+import tech.lancelot.domain.system.DictDetail;
+import tech.lancelot.dto.system.DictDetailDto;
 
 /**
  * @author lancelot

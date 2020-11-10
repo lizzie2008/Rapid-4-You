@@ -26,8 +26,8 @@ import tech.lancelot.security.JwtAccessDeniedHandler;
 import tech.lancelot.security.JwtAuthenticationEntryPoint;
 import tech.lancelot.security.TokenConfigurer;
 import tech.lancelot.security.TokenProvider;
-import tech.lancelot.service.sys.impl.OnlineUserService;
-import tech.lancelot.service.sys.impl.UserCacheClean;
+import tech.lancelot.service.system.impl.OnlineUserService;
+import tech.lancelot.service.system.impl.UserCacheClean;
 
 import java.util.*;
 

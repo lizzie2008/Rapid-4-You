@@ -5,12 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
+import tech.lancelot.enums.BlogType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author lancelot
@@ -21,17 +24,7 @@ import java.sql.Timestamp;
 @Table(name = "blog_article")
 public class Article implements Serializable {
 
-    /**
-     * 博客类型
-     */
-    public static enum BlogType {
-        // 普通
-        NORMAL,
-        // 专题
-        SUBJECT,
-        // 关于
-        ABOUT;
-    }
+
 
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
@@ -83,18 +76,19 @@ public class Article implements Serializable {
     @ApiModelProperty(value = "点赞量")
     private Integer likeSize = 0;
 
-//    @ManyToOne
-//    @ApiModelProperty(value = "分类")
-//    private Category category;
+    @ManyToOne
+    @ApiModelProperty(value = "分类")
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-//    @ManyToOne
-//    @ApiModelProperty(value = "归档")
-//    private Archive archive;
-//
-//    @ManyToMany
-//    @JoinTable(name = "blog_tag", joinColumns = @JoinColumn(name = "blog_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
-//    @ApiModelProperty(value = "标签")
-//    private Set<Tag> tags = new HashSet<Tag>();
+    @ManyToOne
+    @ApiModelProperty(value = "归档")
+    private Archive archive;
+
+    @ManyToMany
+    @JoinTable(name = "blog_article_tag", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    @ApiModelProperty(value = "标签")
+    private Set<Tag> tags = new HashSet<Tag>();
 //
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "blog")
 //    @ApiModelProperty(value = "评论")
