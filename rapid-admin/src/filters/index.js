@@ -73,3 +73,12 @@ export function timeFormat(timestamp, fmt) {
   return moment(timestamp).format(fmt)
 }
 
+/**
+ * get value by key-value dic
+ * @param {String} dic
+ */
+export function toEnumDesc(key, dic) {
+  if (key) return dic.find(item => item.key === key).display_name
+  else return ''
+}
+

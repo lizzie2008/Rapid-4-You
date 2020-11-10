@@ -9,12 +9,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tech.lancelot.annotations.Log;
-import tech.lancelot.domain.sys.Role;
-import tech.lancelot.dto.sys.RoleDto;
-import tech.lancelot.dto.sys.RoleQueryCriteria;
-import tech.lancelot.dto.sys.RoleSmallDto;
+import tech.lancelot.domain.system.Role;
+import tech.lancelot.dto.system.RoleDto;
+import tech.lancelot.dto.system.RoleQueryCriteria;
+import tech.lancelot.dto.system.RoleSmallDto;
 import tech.lancelot.exceptions.BadRequestException;
-import tech.lancelot.service.sys.RoleService;
+import tech.lancelot.service.system.RoleService;
 import tech.lancelot.utils.SecurityUtils;
 import tech.lancelot.vo.Result;
 

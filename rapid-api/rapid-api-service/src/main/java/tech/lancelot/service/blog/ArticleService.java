@@ -2,7 +2,7 @@ package tech.lancelot.service.blog;
 
 import org.springframework.data.domain.Pageable;
 import tech.lancelot.dto.blog.ArticleDto;
-import tech.lancelot.dto.blog.BlogQueryCriteria;
+import tech.lancelot.dto.blog.ArticleQueryCriteria;
 
 import java.util.List;
 
@@ -17,12 +17,12 @@ public interface ArticleService {
      * @param pageable 分页参数
      * @return /
      */
-    Object queryAll(BlogQueryCriteria criteria, Pageable pageable);
+    Object queryAll(ArticleQueryCriteria criteria, Pageable pageable);
 
     /**
      * 查询全部不分页
      * @param criteria 条件
      * @return /
      */
-    List<ArticleDto> queryAll(BlogQueryCriteria criteria);
+    List<ArticleDto> queryAll(ArticleQueryCriteria criteria);
 }

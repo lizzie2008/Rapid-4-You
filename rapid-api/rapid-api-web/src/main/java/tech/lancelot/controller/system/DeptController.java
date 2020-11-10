@@ -8,11 +8,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tech.lancelot.annotations.Log;
-import tech.lancelot.domain.sys.Dept;
-import tech.lancelot.dto.sys.DeptDto;
-import tech.lancelot.dto.sys.DeptQueryCriteria;
+import tech.lancelot.domain.system.Dept;
+import tech.lancelot.dto.system.DeptDto;
+import tech.lancelot.dto.system.DeptQueryCriteria;
 import tech.lancelot.exceptions.BadRequestException;
-import tech.lancelot.service.sys.DeptService;
+import tech.lancelot.service.system.DeptService;
 import tech.lancelot.utils.PageUtil;
 import tech.lancelot.vo.Result;
 

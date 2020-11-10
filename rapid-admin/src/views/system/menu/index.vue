@@ -29,14 +29,19 @@
       lazy
       :load="getMenus"
       :data="crud.data"
-      :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
       row-key="id"
       @select="crud.selectChange"
       @select-all="crud.selectAllChange"
       @selection-change="crud.selectionChangeHandler"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column label="菜单标题" prop="title" width="125px" :show-overflow-tooltip="true" />
+      <el-table-column
+        label="菜单标题"
+        prop="title"
+        width="125px"
+        :show-overflow-tooltip="true"
+      />
       <el-table-column prop="icon" label="图标" align="center" width="60px">
         <template slot-scope="scope">
           <svg-icon :icon-class="scope.row.icon ? scope.row.icon : ''" />
@@ -47,8 +52,16 @@
           {{ scope.row.menuSort }}
         </template>
       </el-table-column>
-      <el-table-column :show-overflow-tooltip="true" prop="permission" label="权限标识" />
-      <el-table-column :show-overflow-tooltip="true" prop="component" label="组件路径" />
+      <el-table-column
+        :show-overflow-tooltip="true"
+        prop="permission"
+        label="权限标识"
+      />
+      <el-table-column
+        :show-overflow-tooltip="true"
+        prop="component"
+        label="组件路径"
+      />
       <el-table-column prop="iframe" label="外链" width="75px">
         <template slot-scope="scope">
           <span v-if="scope.row.iframe">是</span>
@@ -69,11 +82,11 @@
       </el-table-column>
       <el-table-column prop="createTime" label="创建日期">
         <template slot-scope="scope">
-          <span>{{ scope.row.createTime | timeFormat('YYYY-MM-DD') }}</span>
+          <span>{{ scope.row.createTime | timeFormat("YYYY-MM-DD") }}</span>
         </template>
       </el-table-column>
       <el-table-column
-        v-permission="['admin','dept:edit','dept:del']"
+        v-permission="['admin', 'dept:edit', 'dept:del']"
         label="操作"
         width="130px"
         align="center"
@@ -113,7 +126,11 @@
             <el-radio-button label="2">按钮</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-show="form.type.toString() !== '2'" label="菜单图标" prop="icon">
+        <el-form-item
+          v-show="form.type.toString() !== '2'"
+          label="菜单图标"
+          prop="icon"
+        >
           <el-popover
             placement="bottom-start"
             width="450"
@@ -124,7 +141,7 @@
             <el-input
               slot="reference"
               v-model="form.icon"
-              style="width: 450px;"
+              style="width: 450px"
               placeholder="点击选择图标"
               readonly
             >
@@ -133,57 +150,98 @@
                 slot="prefix"
                 :icon-class="form.icon"
                 class="el-input__icon"
-                style="height: 32px;width: 16px;"
+                style="height: 32px; width: 16px"
               />
               <i v-else slot="prefix" class="el-icon-search el-input__icon" />
             </el-input>
           </el-popover>
         </el-form-item>
-        <el-form-item v-show="form.type.toString() !== '2'" label="外链菜单" prop="iframe">
+        <el-form-item
+          v-show="form.type.toString() !== '2'"
+          label="外链菜单"
+          prop="iframe"
+        >
           <el-radio-group v-model="form.iframe" size="mini">
             <el-radio-button :label="true">是</el-radio-button>
             <el-radio-button :label="false">否</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-show="form.type.toString() === '1'" label="菜单缓存" prop="cache">
-          <el-radio-group v-model="form.cache" size="mini">
-            <el-radio-button :label="true">是</el-radio-button>
-            <el-radio-button :label="false">否</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item v-show="form.type.toString() !== '2'" label="菜单可见" prop="hidden">
+        <el-form-item
+          v-show="form.type.toString() !== '2'"
+          label="菜单可见"
+          prop="hidden"
+        >
           <el-radio-group v-model="form.hidden" size="mini">
             <el-radio-button :label="false">是</el-radio-button>
             <el-radio-button :label="true">否</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="form.type.toString() !== '2'" label="菜单标题" prop="title">
+
+        <el-form-item
+          v-show="form.type.toString() === '1'"
+          label="菜单缓存"
+          prop="cache"
+        >
+          <el-radio-group v-model="form.cache" size="mini">
+            <el-radio-button :label="true">是</el-radio-button>
+            <el-radio-button :label="false">否</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item
+          v-show="form.type.toString() === '1'"
+          label="附着标签"
+          prop="affix"
+        >
+          <el-radio-group v-model="form.affix" size="mini">
+            <el-radio-button :label="true">是</el-radio-button>
+            <el-radio-button :label="false">否</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item
+          v-show="form.type.toString() === '1'"
+          label="面包屑"
+          prop="breadcrumb"
+        >
+          <el-radio-group v-model="form.breadcrumb" size="mini">
+            <el-radio-button :label="true">是</el-radio-button>
+            <el-radio-button :label="false">否</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item
+          v-if="form.type.toString() !== '2'"
+          label="菜单标题"
+          prop="title"
+        >
           <el-input
             v-model="form.title"
-            style="width: 178px;"
+            style="width: 178px"
             placeholder="菜单标题"
           />
         </el-form-item>
-        <el-form-item v-if="form.type.toString() === '0'" label="重定向" prop="redirect">
+
+        <el-form-item
+          v-if="form.type.toString() === '2'"
+          label="按钮名称"
+          prop="title"
+        >
           <el-input
-            v-model="form.redirect"
-            style="width: 178px;"
-            placeholder="重定向"
+            v-model="form.title"
+            placeholder="按钮名称"
+            style="width: 178px"
           />
         </el-form-item>
-        <el-form-item v-if="form.type.toString() === '2'" label="按钮名称" prop="title">
-          <el-input v-model="form.title" placeholder="按钮名称" style="width: 178px;" />
-        </el-form-item>
-        <el-form-item v-show="form.type.toString() !== '0'" label="权限标识" prop="permission">
+        <el-form-item
+          v-if="form.type.toString() !== '2'"
+          label="路由地址"
+          prop="path"
+        >
           <el-input
-            v-model="form.permission"
-            :disabled="form.iframe"
-            placeholder="权限标识"
-            style="width: 178px;"
+            v-model="form.path"
+            placeholder="路由地址"
+            style="width: 178px"
           />
-        </el-form-item>
-        <el-form-item v-if="form.type.toString() !== '2'" label="路由地址" prop="path">
-          <el-input v-model="form.path" placeholder="路由地址" style="width: 178px;" />
         </el-form-item>
         <el-form-item label="菜单排序" prop="menuSort">
           <el-input-number
@@ -191,7 +249,18 @@
             :min="0"
             :max="999"
             controls-position="right"
-            style="width: 178px;"
+            style="width: 178px"
+          />
+        </el-form-item>
+        <el-form-item
+          v-if="form.type.toString() === '0'"
+          label="重定向"
+          prop="redirect"
+        >
+          <el-input
+            v-model="form.redirect"
+            style="width: 178px"
+            placeholder="重定向"
           />
         </el-form-item>
         <el-form-item
@@ -199,28 +268,64 @@
           label="组件名称"
           prop="componentName"
         >
-          <el-input v-model="form.componentName" style="width: 178px;" placeholder="匹配组件内Name字段" />
+          <el-input
+            v-model="form.componentName"
+            style="width: 178px"
+            placeholder="匹配组件内Name字段"
+          />
         </el-form-item>
         <el-form-item
           v-show="!form.iframe && form.type.toString() === '1'"
           label="组件路径"
           prop="component"
         >
-          <el-input v-model="form.component" style="width: 178px;" placeholder="组件路径" />
+          <el-input
+            v-model="form.component"
+            style="width: 178px"
+            placeholder="组件路径"
+          />
+        </el-form-item>
+        <el-form-item
+          v-show="form.type.toString() !== '0'"
+          label="权限标识"
+          prop="permission"
+        >
+          <el-input
+            v-model="form.permission"
+            :disabled="form.iframe"
+            placeholder="权限标识"
+            style="width: 178px"
+          />
+        </el-form-item>
+        <el-form-item
+          v-show="form.type.toString() === '1'"
+          label="激活菜单"
+          prop="activeMenu"
+        >
+          <el-input
+            v-model="form.activeMenu"
+            :disabled="form.iframe"
+            placeholder="激活菜单"
+            style="width: 178px"
+          />
         </el-form-item>
         <el-form-item label="上级类目" prop="pid">
           <treeselect
             v-model="form.pid"
             :options="menus"
             :load-options="loadMenus"
-            style="width: 450px;"
+            style="width: 450px"
             placeholder="选择上级类目"
           />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="text" @click="crud.cancelCU">取消</el-button>
-        <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
+        <el-button
+          :loading="crud.status.cu === 2"
+          type="primary"
+          @click="crud.submitCU"
+        >确认</el-button>
       </div>
     </el-dialog>
   </div>
@@ -250,6 +355,9 @@ const defaultForm = {
   pid: 0,
   icon: null,
   cache: false,
+  affix: true,
+  breadcrumb: false,
+  activeMenu: null,
   hidden: false,
   type: 0,
   permission: null
