@@ -19,9 +19,7 @@
           >
             发布
           </el-button>
-          <el-button icon="el-icon-refresh" @click="reset">
-            重置
-          </el-button>
+          <el-button icon="el-icon-refresh" @click="reset"> 重置 </el-button>
         </sticky>
         <!-- 表单内容区域 -->
         <div class="post-main-container">
@@ -68,35 +66,37 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="博客分类:" prop="category.id">
+              <el-form-item label="博客分类:" prop="category">
                 <el-select
-                  v-model="postForm.category.id"
+                  v-model="postForm.category"
+                  value-key="id"
                   clearable
                   placeholder="请选择"
                   class="wd-100"
                 >
                   <el-option
                     v-for="item in categoryOptions"
-                    :key="item.key"
-                    :label="item.display_name"
-                    :value="item.key"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item"
                   />
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="博客归档:" prop="archive.id">
+              <el-form-item label="博客归档:" prop="archive">
                 <el-select
-                  v-model="postForm.archive.id"
+                  v-model="postForm.archive"
+                  value-key="id"
                   clearable
                   placeholder="请选择"
                   class="wd-100"
                 >
                   <el-option
                     v-for="item in archiveOptions"
-                    :key="item.key"
-                    :label="item.display_name"
-                    :value="item.key"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item"
                   />
                 </el-select>
               </el-form-item>
@@ -111,21 +111,22 @@
               </el-form-item>
             </el-col>
             <el-col :span="18">
-              <el-form-item label="博客标签:" prop="tagIds">
+              <el-form-item label="博客标签:">
                 <el-select
-                  v-model="postForm.tagIds"
+                  v-model="postForm.tags"
                   multiple
+                  value-key="id"
                   filterable
-                  default-first-option
+                  default-first-optiony
                   clearable
                   placeholder="请选择文章标签"
                   class="wd-100"
                 >
                   <el-option
                     v-for="item in tagOptions"
-                    :key="item.key"
-                    :label="item.display_name"
-                    :value="item.key"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item"
                   />
                 </el-select>
               </el-form-item>
@@ -188,11 +189,7 @@ export default {
       categoryOptions: [],
       archiveOptions: [],
       tagOptions: [],
-      postForm: {
-        archive: {},
-        category: {},
-        tagIds: []
-      },
+      postForm: {},
       rules: {
         title: [
           { required: true, message: '标题内容不能为空', trigger: 'blur' }
@@ -203,10 +200,10 @@ export default {
         isSticky: [
           { required: true, message: '是否置顶不能为空', trigger: 'change' }
         ],
-        'category.id': [
+        category: [
           { required: true, message: '博客分类不能为空', trigger: 'change' }
         ],
-        'archive.id': [
+        archive: [
           { required: true, message: '博客归档不能为空', trigger: 'change' }
         ],
         createTime: [
@@ -232,40 +229,34 @@ export default {
   },
   created() {
     // 获取分类下拉
-    crudCategory.getAll().then((res) => {
-      this.categoryOptions = res.map(function(v) {
-        return { key: v.id, display_name: v.name }
-      })
+    const p1 = crudCategory.getAll().then((res) => {
+      this.categoryOptions = res
     })
     // 获取归档下拉
-    crudArchive.getAll().then((res) => {
-      this.archiveOptions = res.map(function(v) {
-        return { key: v.id, display_name: v.name }
-      })
+    const p2 = crudArchive.getAll().then((res) => {
+      this.archiveOptions = res
     })
     // 获取标签下拉
-    crudTag.getAll().then((res) => {
-      this.tagOptions = res.map(function(v) {
-        return { key: v.id, display_name: v.name }
-      })
+    const p3 = crudTag.getAll().then((res) => {
+      this.tagOptions = res
     })
 
     // 菜单拉取成功后，展示页面
-    if (this.operation === 'create') {
-      console.log('create')
-    } else if (this.operation === 'edit') {
-      const id = this.$route.params && this.$route.params.id
-      this.fetchData(id)
-    } else {
-      console.log('view')
-    }
+    Promise.all([p1, p2, p3]).then((data) => {
+      if (this.operation === 'create') {
+        console.log('create')
+      } else if (this.operation === 'edit') {
+        const id = this.$route.params && this.$route.params.id
+        this.fetchData(id)
+      } else {
+        console.log('view')
+      }
+    })
   },
   methods: {
     fetchData(id) {
       crudArticle.get(id).then((res) => {
         this.postForm = res
-        // select下拉格式化
-        this.postForm.tagIds = res.tags.map((s) => s.id)
       })
     },
     publish() {
@@ -273,10 +264,7 @@ export default {
         if (valid) {
           // 调用修改接口
           this.loading = true
-          // this.postForm.tags = this.postForm.tags.map(function (s) {
-          //   return s;
-          // });
-          // console.log(this.postForm)
+          console.log(this.postForm)
           crudArticle
             .update(this.postForm)
             .then((response) => {
