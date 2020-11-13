@@ -1,7 +1,7 @@
 
 import request from '@/utils/request'
 
-export function getArticles(params) {
+export function getAll(params) {
   return request({
     url: 'api/articles',
     method: 'get',
@@ -9,4 +9,19 @@ export function getArticles(params) {
   })
 }
 
-export default { getArticles }
+export function get(id) {
+  return request({
+    url: 'api/articles/' + id,
+    method: 'get'
+  })
+}
+
+export function update(data) {
+  return request({
+    url: 'api/articles',
+    method: 'put',
+    data
+  })
+}
+
+export default { getAll, get, update }

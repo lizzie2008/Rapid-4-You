@@ -59,8 +59,8 @@
       />
       <el-table-column
         :show-overflow-tooltip="true"
-        prop="component"
-        label="组件路径"
+        prop="path"
+        label="路由地址"
       />
       <el-table-column prop="iframe" label="外链" width="75px">
         <template slot-scope="scope">
@@ -78,11 +78,6 @@
         <template slot-scope="scope">
           <span v-if="scope.row.hidden">否</span>
           <span v-else>是</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="createTime" label="创建日期">
-        <template slot-scope="scope">
-          <span>{{ scope.row.createTime | timeFormat("YYYY-MM-DD") }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -120,14 +115,13 @@
         label-width="80px"
       >
         <el-form-item label="菜单类型" prop="type">
-          <el-radio-group v-model="form.type" size="mini" style="width: 178px">
-            <el-radio-button label="0">目录</el-radio-button>
+          <el-radio-group v-model="form.type" size="mini" style="width: 300px">
             <el-radio-button label="1">菜单</el-radio-button>
             <el-radio-button label="2">按钮</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item
-          v-show="form.type.toString() !== '2'"
+          v-show="form.type.toString() === '1'"
           label="菜单图标"
           prop="icon"
         >
@@ -157,7 +151,7 @@
           </el-popover>
         </el-form-item>
         <el-form-item
-          v-show="form.type.toString() !== '2'"
+          v-show="form.type.toString() === '1'"
           label="外链菜单"
           prop="iframe"
         >
@@ -167,7 +161,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item
-          v-show="form.type.toString() !== '2'"
+          v-show="form.type.toString() === '1'"
           label="菜单可见"
           prop="hidden"
         >
@@ -210,14 +204,14 @@
         </el-form-item>
 
         <el-form-item
-          v-if="form.type.toString() !== '2'"
+          v-if="form.type.toString() === '1'"
           label="菜单标题"
           prop="title"
         >
           <el-input
             v-model="form.title"
             style="width: 178px"
-            placeholder="菜单标题"
+            placeholder="菜单标题 title"
           />
         </el-form-item>
 
@@ -233,13 +227,13 @@
           />
         </el-form-item>
         <el-form-item
-          v-if="form.type.toString() !== '2'"
+          v-if="form.type.toString() === '1'"
           label="路由地址"
           prop="path"
         >
           <el-input
             v-model="form.path"
-            placeholder="路由地址"
+            placeholder="路由地址 path"
             style="width: 178px"
           />
         </el-form-item>
@@ -253,40 +247,42 @@
           />
         </el-form-item>
         <el-form-item
-          v-if="form.type.toString() === '0'"
+          v-if="form.type.toString() === '1'"
           label="重定向"
           prop="redirect"
         >
           <el-input
             v-model="form.redirect"
+            :disabled="form.iframe"
             style="width: 178px"
-            placeholder="重定向"
+            placeholder="重定向 redirect"
           />
         </el-form-item>
         <el-form-item
-          v-show="!form.iframe && form.type.toString() === '1'"
+          v-show="form.type.toString() === '1'"
           label="组件名称"
           prop="componentName"
         >
           <el-input
             v-model="form.componentName"
+            :disabled="form.iframe"
             style="width: 178px"
-            placeholder="匹配组件内Name字段"
+            placeholder="组件名称 name"
           />
         </el-form-item>
         <el-form-item
-          v-show="!form.iframe && form.type.toString() === '1'"
+          v-show="form.type.toString() === '1'"
           label="组件路径"
           prop="component"
         >
           <el-input
             v-model="form.component"
+            :disabled="form.iframe"
             style="width: 178px"
-            placeholder="组件路径"
+            placeholder="组件路径 component"
           />
         </el-form-item>
         <el-form-item
-          v-show="form.type.toString() !== '0'"
           label="权限标识"
           prop="permission"
         >
@@ -305,7 +301,7 @@
           <el-input
             v-model="form.activeMenu"
             :disabled="form.iframe"
-            placeholder="激活菜单"
+            placeholder="激活菜单 activeMenu"
             style="width: 178px"
           />
         </el-form-item>
@@ -359,7 +355,7 @@ const defaultForm = {
   breadcrumb: false,
   activeMenu: null,
   hidden: false,
-  type: 0,
+  type: 1,
   permission: null
 }
 export default {

@@ -20,17 +20,17 @@ import tech.lancelot.vo.Result;
  */
 @Api(tags = "博客：标签管理")
 @RestController
-@RequestMapping("/api/tag")
+@RequestMapping("/api/tags")
 @RequiredArgsConstructor
 public class TagController {
 
     private final TagService tagService;
 
-    @Log("查询博客|标签")
-    @ApiOperation("查询博客|标签")
+    @Log("博客|查询标签")
+    @ApiOperation("博客|查询标签")
     @GetMapping
     @AnonymousGetMapping
-    public Result queryAll(TagQueryCriteria criteria, Pageable pageable) {
-        return Result.success(tagService.queryAll(criteria,pageable));
+    public Result getAll() {
+        return Result.success(tagService.getAll());
     }
 }

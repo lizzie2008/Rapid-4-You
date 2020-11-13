@@ -24,6 +24,9 @@ import permission from './directive/permission'
 import dict from './components/Dict'
 // 全局配置
 import conf from '@/settings'
+// markdown编辑器
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
 /**
  * If you don't want to use mock-server
@@ -44,6 +47,7 @@ Vue.use(dict)
 Vue.use(Element, {
   size: Cookies.get('size') || 'small' // set element-ui default size
 })
+Vue.use(mavonEditor)
 
 // register global utility filters
 Object.keys(filters).forEach(key => {

@@ -117,8 +117,8 @@
 
 <script>
 import crudArticle from '@/api/blog/article'
-import { getCategorys } from '@/api/blog/category'
-import { getTags } from '@/api/blog/tag'
+import crudCategory from '@/api/blog/category'
+import crudTag from '@/api/blog/tag'
 import CRUD, { presenter, header, form, crud } from '@/components/Crud/crud'
 import rrOperation from '@/components/Crud/RR.operation'
 import crudOperation from '@/components/Crud/CRUD.operation'
@@ -145,7 +145,7 @@ export default {
   cruds() {
     return CRUD({
       title: '文章',
-      url: 'api/article',
+      url: 'api/articles',
       showOnPage: true,
       crudMethod: { ...crudArticle }
     })
@@ -175,14 +175,14 @@ export default {
     this.crud.optShow.download = false
 
     // 获取分类下拉
-    getCategorys().then((res) => {
-      this.categoryOptions = res.content.map(function(v) {
+    crudCategory.getAll().then((res) => {
+      this.categoryOptions = res.map(function(v) {
         return { key: v.id, display_name: v.name }
       })
     })
     // 获取标签下拉
-    getTags().then((res) => {
-      this.tagOptions = res.content.map(function(v) {
+    crudTag.getAll().then((res) => {
+      this.tagOptions = res.map(function(v) {
         return { key: v.id, display_name: v.name }
       })
     })
@@ -190,7 +190,7 @@ export default {
   methods: {
     // 编辑前
     [CRUD.HOOK.beforeToEdit](crud, article) {
-      this.$router.push('/blog/article/edit/' + article.id)
+      this.$router.push({ name: 'ArticleEdit', params: { id: article.id }})
     }
   }
 }

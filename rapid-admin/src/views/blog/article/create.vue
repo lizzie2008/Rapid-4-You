@@ -1,12 +1,12 @@
 <template>
-  <article-detail operation="edit" />
+  <article-detail operation="create" />
 </template>
 
 <script>
 import ArticleDetail from './components/Detail'
 
 export default {
-  name: 'ArticleEdit',
+  name: 'ArticleCreate',
   components: { ArticleDetail }
 }
 </script>

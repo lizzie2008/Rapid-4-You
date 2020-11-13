@@ -24,8 +24,6 @@ import java.util.Set;
 @Table(name = "blog_article")
 public class Article implements Serializable {
 
-
-
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
     @GeneratedValue(generator = "idGenerator")
@@ -86,9 +84,11 @@ public class Article implements Serializable {
     private Archive archive;
 
     @ManyToMany
-    @JoinTable(name = "blog_article_tag", joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    @JoinTable(name = "blog_article_tag",
+            joinColumns = @JoinColumn(name = "article_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
     @ApiModelProperty(value = "标签")
-    private Set<Tag> tags = new HashSet<Tag>();
+    private Set<Tag> tags;
 //
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "blog")
 //    @ApiModelProperty(value = "评论")

@@ -18,11 +18,12 @@ import java.util.List;
 @SuppressWarnings({"unchecked","all"})
 public class QueryHelp {
 
-    public static <R, Q> Predicate getPredicate(Root<R> root, Q query, CriteriaBuilder cb) {
+    public static <R, Q> Predicate getPredicate(Root<R> root,CriteriaQuery cq, CriteriaBuilder cb, Q query) {
         List<Predicate> list = new ArrayList<>();
         if(query == null){
             return cb.and(list.toArray(new Predicate[0]));
         }
+
         // 数据权限验证
         DataPermission permission = query.getClass().getAnnotation(DataPermission.class);
         if(permission != null){
@@ -153,6 +154,8 @@ public class QueryHelp {
             log.error(e.getMessage(), e);
         }
         int size = list.size();
+        // 防止ManyToMany造成多条重复记录
+        cq.distinct(true);
         return cb.and(list.toArray(new Predicate[size]));
     }
 
