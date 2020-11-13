@@ -1,37 +1,5 @@
 .head-container {
   padding-bottom: 10px;
-  // .filter-item {
-  //   display: inline-block;
-  //   vertical-align: middle;
-  //   margin: 0 3px 10px 0;
-  //   input {
-  //     height: 30.5px;
-  //     line-height: 30.5px;
-  //   }
-  // }
-  // .el-form-item-label {
-  //   margin: 0 3px 9px 0;
-  //   display: inline-block;
-  //   text-align: right;
-  //   vertical-align: middle;
-  //   font-size: 14px;
-  //   color: #606266;
-  //   line-height: 30.5px;
-  //   padding: 0 7px 0 7px;
-  // }
-  // .el-button+.el-button {
-  //   margin-left: 0 !important;
-  // }
-  // .el-select__caret.el-input__icon.el-icon-arrow-up{
-  //   line-height: 30.5px;
-  // }
-  // .date-item {
-  //   display: inline-block;
-  //   vertical-align: middle;
-  //   margin-bottom: 10px;
-  //   height: 30.5px !important;
-  //   width: 230px !important;
-  // }
 }
 .el-avatar {
   display: inline-block;
@@ -116,7 +84,114 @@
   margin-bottom: 25px;
 }
 
+.wd-100{
+  width: 100% !important;
+}
+
 // 修复问题：el-table 最后一列操作列设置为fixed后，最后一行有时候显示不完，感觉被遮挡了一半
 .el-table >.el-table__fixed-right {
   height: 100% !important; //设置高优先，以覆盖内联样式
+}
+
+/**********************参考bootstrap css****************************/
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.text-justify {
+  text-align: justify;
+}
+.text-nowrap {
+  white-space: nowrap;
+}
+.text-lowercase {
+  text-transform: lowercase;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+.text-capitalize {
+  text-transform: capitalize;
+}
+.text-muted {
+  color: #777;
+}
+.text-primary {
+  color: #337ab7;
+}
+a.text-primary:hover,
+a.text-primary:focus {
+  color: #286090;
+}
+.text-success {
+  color: #3c763d;
+}
+a.text-success:hover,
+a.text-success:focus {
+  color: #2b542c;
+}
+.text-info {
+  color: #31708f;
+}
+a.text-info:hover,
+a.text-info:focus {
+  color: #245269;
+}
+.text-warning {
+  color: #8a6d3b;
+}
+a.text-warning:hover,
+a.text-warning:focus {
+  color: #66512c;
+}
+.text-danger {
+  color: #a94442;
+}
+a.text-danger:hover,
+a.text-danger:focus {
+  color: #843534;
+}
+.bg-primary {
+  color: #fff;
+  background-color: #337ab7;
+}
+a.bg-primary:hover,
+a.bg-primary:focus {
+  background-color: #286090;
+}
+.bg-success {
+  background-color: #dff0d8;
+}
+a.bg-success:hover,
+a.bg-success:focus {
+  background-color: #c1e2b3;
+}
+.bg-info {
+  background-color: #d9edf7;
+}
+a.bg-info:hover,
+a.bg-info:focus {
+  background-color: #afd9ee;
+}
+.bg-warning {
+  background-color: #fcf8e3;
+}
+a.bg-warning:hover,
+a.bg-warning:focus {
+  background-color: #f7ecb5;
+}
+.bg-danger {
+  background-color: #f2dede;
+}
+a.bg-danger:hover,
+a.bg-danger:focus {
+  background-color: #e4b9b9;
+}
+small {
+  font-size: 80%;
 }

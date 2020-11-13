@@ -28,13 +28,13 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Object queryAll(TagQueryCriteria criteria, Pageable pageable) {
-        Page<Tag> page = tagRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
+        Page<Tag> page = tagRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteriaQuery, criteriaBuilder, criteria), pageable);
         return PageUtil.toPage(page.map(tagMapper::toDto));
     }
 
     @Override
-    public List<TagDto> queryAll(TagQueryCriteria criteria) {
-        List<Tag> categories = tagRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder));
-        return tagMapper.toDto(categories);
+    public List<TagDto> getAll() {
+        List<Tag> tags = tagRepository.findAll();
+        return tagMapper.toDto(tags);
     }
 }

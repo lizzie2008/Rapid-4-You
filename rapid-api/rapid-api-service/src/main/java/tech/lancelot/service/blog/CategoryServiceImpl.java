@@ -33,13 +33,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Object queryAll(CategoryQueryCriteria criteria, Pageable pageable) {
-        Page<Category> page = categoryRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
+        Page<Category> page = categoryRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteriaQuery, criteriaBuilder, criteria), pageable);
         return PageUtil.toPage(page.map(categoryMapper::toDto));
     }
 
     @Override
-    public List<CategoryDto> queryAll(CategoryQueryCriteria criteria) {
-        List<Category> categories = categoryRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder));
+    public List<CategoryDto> getAll() {
+        List<Category> categories = categoryRepository.findAll();
         return categoryMapper.toDto(categories);
     }
 }

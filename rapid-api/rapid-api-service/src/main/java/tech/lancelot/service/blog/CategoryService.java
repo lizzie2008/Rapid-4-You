@@ -23,8 +23,7 @@ public interface CategoryService {
 
     /**
      * 查询全部不分页
-     * @param criteria 条件
      * @return /
      */
-    List<CategoryDto> queryAll(CategoryQueryCriteria criteria);
+    List<CategoryDto> getAll();
 }

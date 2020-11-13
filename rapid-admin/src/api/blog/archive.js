@@ -3,7 +3,7 @@ import request from '@/utils/request'
 
 export function getAll(params) {
   return request({
-    url: 'api/tags',
+    url: 'api/archives',
     method: 'get',
     params
   })

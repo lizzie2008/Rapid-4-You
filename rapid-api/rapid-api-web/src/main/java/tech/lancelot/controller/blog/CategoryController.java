@@ -22,17 +22,17 @@ import tech.lancelot.vo.Result;
  */
 @Api(tags = "博客：分类管理")
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/api/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @Log("查询博客|分类")
-    @ApiOperation("查询博客|分类")
+    @Log("博客|查询分类")
+    @ApiOperation("博客|查询分类")
     @GetMapping
     @AnonymousGetMapping
-    public Result queryAll(CategoryQueryCriteria criteria, Pageable pageable) {
-        return Result.success(categoryService.queryAll(criteria,pageable));
+    public Result getAll() {
+        return Result.success(categoryService.getAll());
     }
 }

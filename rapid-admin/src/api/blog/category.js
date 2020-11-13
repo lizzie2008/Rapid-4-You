@@ -1,12 +1,12 @@
 
 import request from '@/utils/request'
 
-export function getCategorys(params) {
+export function getAll(params) {
   return request({
-    url: 'api/category',
+    url: 'api/categories',
     method: 'get',
     params
   })
 }
 
-export default { getCategorys }
+export default { getAll }
