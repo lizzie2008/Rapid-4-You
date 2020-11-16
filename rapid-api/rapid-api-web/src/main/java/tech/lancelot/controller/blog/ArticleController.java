@@ -14,8 +14,17 @@ import tech.lancelot.annotations.restful.AnonymousGetMapping;
 import tech.lancelot.domain.blog.Article;
 import tech.lancelot.domain.system.User;
 import tech.lancelot.dto.blog.ArticleQueryCriteria;
+import tech.lancelot.dto.system.RoleSmallDto;
+import tech.lancelot.exceptions.BadRequestException;
 import tech.lancelot.service.blog.ArticleService;
+import tech.lancelot.utils.SecurityUtils;
 import tech.lancelot.vo.Result;
+
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author lancelot
@@ -39,7 +48,6 @@ public class ArticleController {
     @Log("博客|文章详情")
     @ApiOperation("博客|文章详情")
     @GetMapping(value = "/{id}")
-    @AnonymousGetMapping
     public Result get(@PathVariable String id){
         return Result.success(articleService.findById(id));
     }
@@ -49,6 +57,7 @@ public class ArticleController {
     @PostMapping
     @PreAuthorize("@el.check('article:add')")
     public Result create(@Validated @RequestBody Article resources) {
+        resources.setCreateTime( new Timestamp(System.currentTimeMillis()));
         articleService.create(resources);
         return Result.success();
     }
@@ -56,10 +65,25 @@ public class ArticleController {
     @Log("博客|文章修改")
     @ApiOperation("博客|文章修改")
     @PutMapping
-    @AnonymousGetMapping
-//    @PreAuthorize("@el.check('article:edit')")
+    @PreAuthorize("@el.check('article:edit')")
     public Result update(@Validated @RequestBody Article resources) {
         articleService.update(resources);
         return Result.success();
+    }
+
+    @Log("博客|文章删除")
+    @ApiOperation("博客|文章删除")
+    @DeleteMapping
+    @PreAuthorize("@el.check('article:del')")
+    public Result delete(@RequestBody Set<String> ids) {
+        articleService.delete(ids);
+        return Result.success();
+    }
+
+
+    @GetMapping(value = "/highLightQuery")
+    @AnonymousGetMapping
+    public Result highLightQuery(String[] searchFields, String keyword,Pageable pageable) {
+        return Result.success(articleService.highLightQuery(searchFields, keyword, pageable));
     }
 }

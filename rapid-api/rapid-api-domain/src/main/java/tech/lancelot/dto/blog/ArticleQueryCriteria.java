@@ -29,6 +29,9 @@ public class ArticleQueryCriteria implements Serializable {
     @Query(propName = "id", joinName = "category")
     private Long categoryId;
 
+    @Query(propName = "id", joinName = "archive")
+    private Long archiveId;
+
     @Query(propName = "id", type = Query.Type.IN, joinName = "tags")
     private Set<Long> tagIds = new HashSet<>();
 }
