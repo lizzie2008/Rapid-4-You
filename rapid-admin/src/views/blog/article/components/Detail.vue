@@ -111,7 +111,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="18">
-              <el-form-item label="博客标签:">
+              <el-form-item label="博客标签:" prop="tags">
                 <el-select
                   v-model="postForm.tags"
                   multiple
@@ -243,13 +243,10 @@ export default {
 
     // 菜单拉取成功后，展示页面
     Promise.all([p1, p2, p3]).then((data) => {
-      if (this.operation === 'create') {
-        console.log('create')
-      } else if (this.operation === 'edit') {
+      // 如果不是新建，则根据id查询
+      if (this.operation !== 'add') {
         const id = this.$route.params && this.$route.params.id
         this.fetchData(id)
-      } else {
-        console.log('view')
       }
     })
   },
@@ -264,17 +261,33 @@ export default {
         if (valid) {
           // 调用修改接口
           this.loading = true
-          console.log(this.postForm)
-          crudArticle
-            .update(this.postForm)
-            .then((response) => {
-              this.loading = false
-              this.$notify({
-                title: '更新文章成功',
-                type: 'success'
+          if (this.operation === 'add') {
+            crudArticle
+              .create(this.postForm)
+              .then((response) => {
+                this.loading = false
+                this.$notify({
+                  title: '新建文章成功',
+                  type: 'success'
+                })
+                this._goBackToList()
               })
-            })
-            .catch(() => (this.loading = false))
+              .catch(() => (this.loading = false))
+          } else if (this.operation === 'edit') {
+            crudArticle
+              .update(this.postForm)
+              .then((response) => {
+                this.loading = false
+                this.$notify({
+                  title: '更新文章成功',
+                  type: 'success'
+                })
+                this._goBackToList()
+              })
+              .catch(() => (this.loading = false))
+          } else {
+            throw new Error('未知操作类型')
+          }
         }
       })
     },
@@ -284,6 +297,12 @@ export default {
         title: '信息已重置',
         type: 'success'
       })
+    },
+    _goBackToList() {
+      // 调用全局挂载的方法
+      this.$store.dispatch('tagsView/delView', this.$route)
+      // 返回上一步路由
+      this.$router.go(-1)
     }
   }
 }

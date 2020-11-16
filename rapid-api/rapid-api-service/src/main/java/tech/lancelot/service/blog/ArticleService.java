@@ -1,13 +1,16 @@
 package tech.lancelot.service.blog;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import tech.lancelot.domain.blog.Article;
+import tech.lancelot.domain.blog.ArticleEs;
 import tech.lancelot.domain.system.User;
 import tech.lancelot.dto.blog.ArticleDto;
 import tech.lancelot.dto.blog.ArticleQueryCriteria;
 import tech.lancelot.dto.system.MenuDto;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author lancelot
@@ -47,4 +50,19 @@ public interface ArticleService {
      * @param resources /
      */
     void update(Article resources);
+
+    /**
+     * 删除
+     * @param ids /
+     */
+    void delete(Set<String> ids);
+
+    /**
+     * 全文检索
+     * @param searchFields
+     * @param keyword
+     * @param pageable
+     * @return
+     */
+    Page<ArticleEs> highLightQuery(String[] searchFields, String keyword, Pageable pageable);
 }

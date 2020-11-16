@@ -41,6 +41,20 @@
         </el-form-item>
         <el-form-item>
           <el-select
+            v-model="query.archiveId"
+            clearable
+            placeholder="按归档搜索"
+          >
+            <el-option
+              v-for="item in archiveOptions"
+              :key="item.key"
+              :label="item.display_name"
+              :value="item.key"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-select
             v-model="query.tagIds"
             multiple
             clearable
@@ -105,7 +119,7 @@
             :data="scope.row"
             :permission="permission"
             :disabled-dle="scope.row.id === 1"
-            msg="确定删除吗,如果存在下级节点则一并删除，此操作不能撤销！"
+            msg="确定删除吗，此操作不能撤销！"
           />
         </template>
       </el-table-column>
@@ -118,6 +132,7 @@
 <script>
 import crudArticle from '@/api/blog/article'
 import crudCategory from '@/api/blog/category'
+import crudArchive from '@/api/blog/archive'
 import crudTag from '@/api/blog/tag'
 import CRUD, { presenter, header, form, crud } from '@/components/Crud/crud'
 import rrOperation from '@/components/Crud/RR.operation'
@@ -147,7 +162,8 @@ export default {
       title: '文章',
       url: 'api/articles',
       showOnPage: true,
-      crudMethod: { ...crudArticle }
+      crudMethod: { ...crudArticle },
+      sort: ['createTime,desc']
     })
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
@@ -161,6 +177,7 @@ export default {
         { key: 'ABOUT', display_name: '关于' }
       ],
       categoryOptions: [],
+      archiveOptions: [],
       tagOptions: [],
       articles: [],
       rules: {},
@@ -180,6 +197,12 @@ export default {
         return { key: v.id, display_name: v.name }
       })
     })
+    // 获取归档下拉
+    crudArchive.getAll().then((res) => {
+      this.archiveOptions = res.map(function(v) {
+        return { key: v.id, display_name: v.name }
+      })
+    })
     // 获取标签下拉
     crudTag.getAll().then((res) => {
       this.tagOptions = res.map(function(v) {
@@ -188,7 +211,11 @@ export default {
     })
   },
   methods: {
-    // 编辑前
+    // 新建
+    [CRUD.HOOK.beforeToAdd](crud) {
+      this.$router.push({ name: 'ArticleAdd' })
+    },
+    // 编辑
     [CRUD.HOOK.beforeToEdit](crud, article) {
       this.$router.push({ name: 'ArticleEdit', params: { id: article.id }})
     }
