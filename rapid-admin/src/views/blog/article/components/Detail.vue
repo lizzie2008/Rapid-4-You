@@ -11,7 +11,7 @@
         <!-- 头部固定工具栏 -->
         <sticky :z-index="1501" :class-name="'sub-navbar'">
           <el-button
-            v-loading="loading"
+            v-loading="operating"
             icon="el-icon-share"
             style="margin-left: 10px"
             type="success"
@@ -224,7 +224,7 @@ export default {
           { required: true, message: '文章内容不能为空', trigger: 'blur' }
         ]
       },
-      loading: false
+      operating: false
     }
   },
   created() {
@@ -260,24 +260,24 @@ export default {
       this.$refs['postForm'].validate((valid) => {
         if (valid) {
           // 调用修改接口
-          this.loading = true
+          this.operating = true
           if (this.operation === 'add') {
             crudArticle
               .create(this.postForm)
               .then((response) => {
-                this.loading = false
+                this.operating = false
                 this.$notify({
                   title: '新建文章成功',
                   type: 'success'
                 })
                 this._goBackToList()
               })
-              .catch(() => (this.loading = false))
+              .catch(() => (this.operating = false))
           } else if (this.operation === 'edit') {
             crudArticle
               .update(this.postForm)
               .then((response) => {
-                this.loading = false
+                this.operating = false
                 this.$notify({
                   title: '更新文章成功',
                   type: 'success'

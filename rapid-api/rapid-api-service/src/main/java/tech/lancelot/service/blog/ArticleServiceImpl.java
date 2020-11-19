@@ -1,12 +1,17 @@
 package tech.lancelot.service.blog;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +31,7 @@ import java.util.stream.Collectors;
 /**
  * @author lancelot
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "article")
@@ -97,34 +103,47 @@ public class ArticleServiceImpl implements ArticleService {
         articleEsRepository.deleteAllByIdIn(ids);
     }
 
-    /**
-     * 全文检索
-     * @param searchFields
-     * @param keyword
-     * @param pageable
-     * @return
-     */
     @Override
     public Page<ArticleEs> highLightQuery(String[] searchFields, String keyword, Pageable pageable) {
 
-         if(searchFields==null||searchFields.length<=0) {
-             throw new BadRequestException("检索的字段不能为空！");
-         }
-        if(StringUtils.isBlank(keyword)) {
+        if (searchFields == null || searchFields.length <= 0) {
+            throw new BadRequestException("检索的字段不能为空！");
+        }
+        if (StringUtils.isBlank(keyword)) {
             throw new BadRequestException("检索的关键字不能为空！");
         }
 
-        NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder();
-        searchQueryBuilder.withPageable(pageable);
-        for (String searchField : searchFields) {
-            searchQueryBuilder.withQuery(QueryBuilders.termQuery(searchField, keyword))
-                    .withHighlightFields(new HighlightBuilder.Field(searchField)
-                            //替换默认高亮标签<em></em>
-                            .preTags("<span style=\"color:red\">").postTags("</span>"));
+        String preTags="<span style=\"color:red\">";
+        String postTags="</span>";
 
+        NativeSearchQueryBuilder searchQueryBuilder = new NativeSearchQueryBuilder();
+        BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
+
+        // 拼接查询，并设置高亮
+        List<HighlightBuilder.Field> highlightList=new ArrayList<>();
+        for (String searchField : searchFields) {
+            boolQueryBuilder.should(QueryBuilders.matchQuery(searchField, keyword));
+            highlightList.add(new HighlightBuilder.Field(searchField).preTags(preTags).postTags(postTags));
         }
-        Page<ArticleEs> tls = elasticsearchTemplate.queryForPage(searchQueryBuilder.build(), ArticleEs.class, highLightResultMapper);
+
+        NativeSearchQuery nativeSearchQuery = searchQueryBuilder
+                .withQuery(boolQueryBuilder)
+                .withHighlightFields(highlightList.toArray(new HighlightBuilder.Field[highlightList.size()]))
+                .withPageable(pageable)
+                .build();
+
+        Page<ArticleEs> tls = elasticsearchTemplate.queryForPage(nativeSearchQuery, ArticleEs.class, highLightResultMapper);
         return tls;
+    }
+
+    @Override
+    public Integer syncToEs() {
+        List<Article> articles = articleRepository.findAll();
+        for (Article article : articles) {
+            ArticleEs articleEs = convertToEsEntity(article);
+            articleEsRepository.save(articleEs);
+        }
+        return articles.size();
     }
 
     /**

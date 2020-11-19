@@ -64,7 +64,7 @@ public class MenuServiceImpl implements MenuService {
                 }
             }
         }
-        return menuMapper.toDto(menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteriaQuery, criteriaBuilder,criteria), sort));
+        return menuMapper.toDto(menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteriaQuery, criteriaBuilder, criteria), sort));
     }
 
     @Override
@@ -270,27 +270,7 @@ public class MenuServiceImpl implements MenuService {
                         menuVo.setMeta(new MenuMetaVo(menuDTO.getTitle(), menuDTO.getIcon(), !menuDTO.getCache(),
                                 menuDTO.getAffix(), menuDTO.getBreadcrumb(), menuDTO.getActiveMenu()));
                         if (menuDtoList != null && menuDtoList.size() != 0) {
-                            menuVo.setAlwaysShow(true);
-//                            menuVo.setRedirect("noredirect");
                             menuVo.setChildren(buildMenus(menuDtoList));
-                            // 处理是一级菜单并且没有子菜单的情况
-//                        } else if (menuDTO.getPid() == null) {
-//                            MenuVo menuVo1 = new MenuVo();
-//                            menuVo1.setMeta(menuVo.getMeta());
-//                            // 非外链
-//                            if (!menuDTO.getIFrame()) {
-//                                menuVo1.setPath("index");
-//                                menuVo1.setName(menuVo.getName());
-//                                menuVo1.setComponent(menuVo.getComponent());
-//                            } else {
-//                                menuVo1.setPath(menuDTO.getPath());
-//                            }
-//                            menuVo.setName(null);
-//                            menuVo.setMeta(null);
-//                            menuVo.setComponent("Layout");
-//                            List<MenuVo> list1 = new ArrayList<>();
-//                            list1.add(menuVo1);
-//                            menuVo.setChildren(list1);
                         }
                         list.add(menuVo);
                     }

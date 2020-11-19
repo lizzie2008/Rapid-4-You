@@ -65,4 +65,10 @@ public interface ArticleService {
      * @return
      */
     Page<ArticleEs> highLightQuery(String[] searchFields, String keyword, Pageable pageable);
+
+    /**
+     * 同步所有到 Elasticsearch
+     * @return
+     */
+    Integer syncToEs();
 }

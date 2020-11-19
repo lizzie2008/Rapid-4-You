@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * @author lancelot
@@ -35,5 +35,5 @@ public class ArticleEs implements Serializable {
     @Field(type = FieldType.Text, index = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
     private String tags;
     @Field(type = FieldType.Date, format = DateFormat.custom, pattern = "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis")
-    private Date createTime;
+    private Timestamp createTime;
 }

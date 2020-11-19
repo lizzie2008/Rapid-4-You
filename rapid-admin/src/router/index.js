@@ -19,13 +19,13 @@ import Layout from '@/layout'
  * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
  * name:'router-name'             the name is used by <keep-alive> (must set!!!)
  * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
-    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'/'el-icon-x' the icon show in the sidebar
-    noCache: true                if set true, the page will no be cached(default is false)
-    affix: true                  if set true, the tag will affix in the tags-view
-    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
-    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
+    permissions: ['user:list']    control the page permissions (you can set multiple permissions)
+    title: 'title'                the name show in sidebar and breadcrumb (recommend set)
+    icon: 'svg-name'/'el-icon-x'  the icon show in the sidebar
+    noCache: true                 if set true, the page will no be cached(default is false)
+    affix: true                   if set true, the tag will affix in the tags-view
+    breadcrumb: false             if set false, the item will hidden in breadcrumb(default is true)
+    activeMenu: '/example/list'   if set path, the sidebar will highlight the path you set
   }
  */
 
@@ -93,59 +93,6 @@ export const constantRoutes = [
       }
     ]
   }
-  // {
-  //   path: '/system',
-  //   component: Layout,
-  //   redirect: '/system/menu',
-  //   name: 'System',
-  //   meta: {
-  //     title: '系统管理',
-  //     icon: 'el-icon-s-tools'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'menu',
-  //       component: () => import('@/views/system/menu/index'),
-  //       name: 'Menu',
-  //       meta: { title: '菜单管理', icon: 'el-icon-s-order' }
-  //     },
-  //     {
-  //       path: 'dept',
-  //       component: () => import('@/views/system/dept/index'),
-  //       name: 'Dept',
-  //       meta: { title: '部门管理', icon: 'el-icon-user-solid' }
-  //     },
-  //     {
-  //       path: 'job',
-  //       component: () => import('@/views/system/job/index'),
-  //       name: 'Job',
-  //       meta: { title: '岗位管理', icon: 'el-icon-user-solid' }
-  //     },
-  //     {
-  //       path: 'user',
-  //       component: () => import('@/views/system/user/index'),
-  //       name: 'User',
-  //       meta: { title: '用户管理', icon: 'el-icon-user-solid' }
-  //     },
-  //     {
-  //       path: 'role',
-  //       component: () => import('@/views/system/role/index'),
-  //       name: 'Role',
-  //       meta: { title: '角色管理', icon: 'el-icon-user-solid' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: 'api-guide',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: process.env.VUE_APP_BASE_API + '/doc.html',
-  //       meta: { title: '接口文档', icon: 'link' }
-  //     }
-  //   ]
-  // },
-
 ]
 
 const createRouter = () => new Router({

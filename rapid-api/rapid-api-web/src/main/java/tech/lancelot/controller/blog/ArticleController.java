@@ -13,6 +13,7 @@ import tech.lancelot.annotations.Log;
 import tech.lancelot.annotations.restful.AnonymousGetMapping;
 import tech.lancelot.domain.blog.Article;
 import tech.lancelot.domain.system.User;
+import tech.lancelot.dto.blog.ArticleDto;
 import tech.lancelot.dto.blog.ArticleQueryCriteria;
 import tech.lancelot.dto.system.RoleSmallDto;
 import tech.lancelot.exceptions.BadRequestException;
@@ -23,6 +24,7 @@ import tech.lancelot.vo.Result;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -48,6 +50,7 @@ public class ArticleController {
     @Log("博客|文章详情")
     @ApiOperation("博客|文章详情")
     @GetMapping(value = "/{id}")
+    @PreAuthorize("@el.check('article:view')")
     public Result get(@PathVariable String id){
         return Result.success(articleService.findById(id));
     }
@@ -85,5 +88,11 @@ public class ArticleController {
     @AnonymousGetMapping
     public Result highLightQuery(String[] searchFields, String keyword,Pageable pageable) {
         return Result.success(articleService.highLightQuery(searchFields, keyword, pageable));
+    }
+
+    @GetMapping(value = "/syncToEs")
+    @AnonymousGetMapping
+    public Result syncToEs() {
+        return Result.success(articleService.syncToEs());
     }
 }
