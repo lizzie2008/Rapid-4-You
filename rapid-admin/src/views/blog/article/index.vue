@@ -85,12 +85,15 @@
       @selection-change="crud.selectionChangeHandler"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column
-        label="标题"
-        prop="title"
-        width="300"
-        :show-overflow-tooltip="true"
-      />
+      <el-table-column label="标题" width="360" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <router-link
+            :to="{ path: '/blog/article/' + scope.row.id }"
+          ><el-link type="primary" style="font-size: unset">{{
+            scope.row.title
+          }}</el-link></router-link>
+        </template>
+      </el-table-column>
       <el-table-column label="类型">
         <template slot-scope="scope">
           <template>
@@ -217,7 +220,8 @@ export default {
     },
     // 编辑
     [CRUD.HOOK.beforeToEdit](crud, article) {
-      this.$router.push({ name: 'ArticleEdit', params: { id: article.id }})
+      // this.$router.push({ name: 'ArticleEdit', params: { id: article.id }})
+      this.$router.push('/blog/article/edit/' + article.id)
     }
   }
 }

@@ -40,4 +40,18 @@ export function del(ids) {
   })
 }
 
-export default { getAll, get, create, update, del }
+export function syncToEs() {
+  return request({
+    url: 'api/articles/syncToEs',
+    method: 'get'
+  })
+}
+
+export function highLightQuery(parmas) {
+  return request({
+    url: 'api/articles/highLightQuery',
+    method: 'get',
+    params: parmas
+  })
+}
+export default { getAll, get, create, update, del, syncToEs, highLightQuery }

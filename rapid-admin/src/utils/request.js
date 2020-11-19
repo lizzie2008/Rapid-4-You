@@ -54,7 +54,7 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     if (Object.prototype.hasOwnProperty.call(res, 'code')) {
-      if (res.code !== 0 && res.data) {
+      if (res.code !== 0) {
         Message({
           message: res.msg || 'Error',
           type: 'error',
