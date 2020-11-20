@@ -7,3 +7,20 @@ export function getFolders(params) {
     params
   })
 }
+
+export function queryConfig() {
+  return request({
+    url: 'api/ali-oss/config',
+    method: 'get'
+  })
+}
+
+export function updateConfig(data) {
+  return request({
+    url: 'api/ali-oss/config',
+    data,
+    method: 'put'
+  })
+}
+
+export default { getFolders, queryConfig, updateConfig }

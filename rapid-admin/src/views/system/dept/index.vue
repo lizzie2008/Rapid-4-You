@@ -42,7 +42,7 @@
       append-to-body
       :close-on-click-modal="false"
       :before-close="crud.cancelCU"
-      :visible.sync="crud.status.cu > 0"
+      :visible="crud.status.cu > 0"
       :title="crud.status.title"
       width="500px"
     >
