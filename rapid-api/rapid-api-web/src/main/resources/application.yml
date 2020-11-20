@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
   #配置数据源
   datasource:
     druid:
@@ -134,6 +138,10 @@ file:
 #邮箱验证码有效时间/秒
 code:
   expiration: 300
+
+# 文件上传最大不超过5M
+upload:
+  max-size: 1
 
 
 

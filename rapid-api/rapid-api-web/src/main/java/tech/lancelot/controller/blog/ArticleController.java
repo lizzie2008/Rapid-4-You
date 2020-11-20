@@ -5,28 +5,17 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import tech.lancelot.annotations.DataPermission;
 import tech.lancelot.annotations.Log;
 import tech.lancelot.annotations.restful.AnonymousGetMapping;
 import tech.lancelot.domain.blog.Article;
-import tech.lancelot.domain.system.User;
-import tech.lancelot.dto.blog.ArticleDto;
 import tech.lancelot.dto.blog.ArticleQueryCriteria;
-import tech.lancelot.dto.system.RoleSmallDto;
-import tech.lancelot.exceptions.BadRequestException;
 import tech.lancelot.service.blog.ArticleService;
-import tech.lancelot.utils.SecurityUtils;
 import tech.lancelot.vo.Result;
 
 import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author lancelot

@@ -220,7 +220,6 @@ export default {
     },
     // 编辑
     [CRUD.HOOK.beforeToEdit](crud, article) {
-      // this.$router.push({ name: 'ArticleEdit', params: { id: article.id }})
       this.$router.push('/blog/article/edit/' + article.id)
     }
   }
