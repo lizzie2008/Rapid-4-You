@@ -1,22 +1,9 @@
 ---
 home: true
-heroText: Rapid 4 You
-tagline: 一款简单快速构建信息管理系统前后端的框架.
 heroImage: /logo.png
-# heroImageStyle: {
-#   maxWidth: '600px',
-#   width: '100%',
-#   display: block,
-#   margin: '9rem auto 2rem',
-#   background: '#fff',
-#   borderRadius: '1rem',
-# }
-bgImageStyle: {
-  height: '450px'
-}
-isShowTitleInHome: false
+tagline: 一款简单快速构建信息管理系统前后端的框架
 actionText: 快速开始 →
-actionLink: /guide/about/
+actionLink: /guide/
 features:
 - title: 技术栈
   details: 使用 SpringBoot、Jpa、Security、Redis、Vue 等前后端前沿技术开发。
@@ -30,4 +17,5 @@ features:
   details: 支持电脑、平板、手机等所有主流设备访问。
 - title: 易用性
   details: 几乎可用于所有Web项目的开发，如 OA、Cms，网址后台管理等。
+footer: MIT Licensed | Copyright © 2018-present Leo Hsu
 ---
