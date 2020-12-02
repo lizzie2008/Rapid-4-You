@@ -3,7 +3,6 @@ const { description } = require('../../package')
 module.exports = {
   title: 'Rapid 4 You',
   description: '一款简单快速构建信息管理系统前后端的框架',
-  base: "/docs/",
   head: [
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
