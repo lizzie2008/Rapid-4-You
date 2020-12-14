@@ -5,14 +5,14 @@
 <center>
 
 <div>
-  <a target="_black" href="https://leohsu.mit-license.org/">
+  <a target="_black" href="https://github.com/lizzie2008/Rapid-4-You/blob/master/LICENSE">
     <img alt="GitHub license" src="https://img.shields.io/github/license/lizzie2008/Rapid-4-You">
   </a>
   <a target="_black" href="https://github.com/lizzie2008/Rapid-4-You">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/lizzie2008/Rapid-4-You?style=flat&logo=github">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/lizzie2008/Rapid-4-You">
   </a>
   <a target="_black" href="https://github.com/lizzie2008/Rapid-4-You">
-    <img alt="GitHub forks" src="https://img.shields.io/github/forks/lizzie2008/Rapid-4-You?style=flat&logo=github">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/lizzie2008/Rapid-4-You">
   </a>
 </div>
 

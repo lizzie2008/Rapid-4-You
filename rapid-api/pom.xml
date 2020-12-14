@@ -107,7 +107,6 @@
             <version>${log4jdbc.version}</version>
         </dependency>
 
-
         <!-- Java图形验证码 -->
         <dependency>
             <groupId>com.github.whvcse</groupId>
@@ -200,5 +199,8 @@
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>3.10.2</version>
         </dependency>
+
+
+
     </dependencies>
 </project>
