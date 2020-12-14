@@ -2,7 +2,9 @@ package tech.lancelot;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.activiti.spring.boot.SecurityAutoConfiguration;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
@@ -21,7 +23,7 @@ import tech.lancelot.utils.SpringContextHolder;
 @EnableAsync
 @ApiIgnore
 @RestController
-@SpringBootApplication
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 @EnableTransactionManagement
 //@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class AppRun {

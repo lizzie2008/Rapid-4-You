@@ -90,11 +90,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         HttpMethod.GET,
                         "/*.html",
+                        "/*.ico",
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
                         "/webSocket/**"
                 ).permitAll()
+                // 工作流
+                .antMatchers("/workflow/**").permitAll()
                 // swagger 文档
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
