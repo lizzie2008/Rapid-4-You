@@ -19,6 +19,7 @@ import tech.lancelot.utils.ValidationUtil;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author lancelot
@@ -35,9 +36,11 @@ public class AliOssServiceImpl implements AliOssService {
 
     @Override
     public StorageConfig getConfig() {
-        StorageConfig storageConfig = storageConfigRepository.findById("ali-oss").orElseGet(StorageConfig::new);
-        ValidationUtil.isNull(storageConfig.getId(), "StorageConfig", "id", "ali-oss");
-        return storageConfig;
+        Optional<StorageConfig> storageConfig = storageConfigRepository.findById("ali-oss");
+        if(!storageConfig.isPresent()) {
+            throw new RuntimeException("未能匹配[config_id]为ali-oss的相关配置，请在[tool_storage_config]表中进行配置");
+        }
+        return storageConfig.get();
     }
 
     @Override

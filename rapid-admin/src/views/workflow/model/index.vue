@@ -2,7 +2,6 @@
   <div class="app-container">
     <!--表格渲染-->
     <el-table ref="table" :data="tableData">
-      <el-table-column type="selection" width="55" />
       <el-table-column label="ID" prop="id" />
       <el-table-column label="Key" prop="key" />
       <el-table-column label="名称" prop="name" />
@@ -25,9 +24,9 @@
             icon="el-icon-edit"
             target="_blank"
             size="mini"
-            style="margin-right: 10px"
+            style="margin-right: 10px; font-size: unset"
             :href="
-              'http://localhost:8080/workflow/modeler.html?modelId=' +
+              baseUrl+'/workflow/modeler.html?modelId=' +
                 scope.row.id
             "
           >打开设计器</el-link>
@@ -35,7 +34,7 @@
             icon="el-icon-edit"
             target="_blank"
             size="mini"
-            style="margin-right: 10px"
+            style="margin-right: 10px; font-size: unset"
             @click="deploy(scope.row.id)"
           >部署</el-link>
         </template>
@@ -51,7 +50,8 @@ export default {
   name: 'ModelList',
   data() {
     return {
-      tableData: []
+      tableData: [],
+      baseUrl: process.env.VUE_APP_BASE_API
     }
   },
   created() {

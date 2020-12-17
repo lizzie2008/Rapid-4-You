@@ -5,40 +5,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
-import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tech.lancelot.annotations.Log;
 import tech.lancelot.annotations.restful.AnonymousGetMapping;
 import tech.lancelot.annotations.restful.AnonymousPostMapping;
-import tech.lancelot.domain.blog.Article;
-import tech.lancelot.service.workflow.ActivitiService;
 import tech.lancelot.vo.Result;
-import tech.lancelot.vo.TaskVo;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.Console;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,8 +32,6 @@ import java.util.List;
 public class ModelController {
 
     private final RepositoryService repositoryService;
-    private final RuntimeService runtimeService;
-    private final TaskService taskService;
 
     private final ObjectMapper objectMapper;
 
@@ -78,7 +57,7 @@ public class ModelController {
         String name = "new-process";
         String description = "";
         int revision = 1;
-        String key = "process";
+        String key = "rapid";
 
         ObjectNode modelNode = objectMapper.createObjectNode();
         modelNode.put(ModelDataJsonConstants.MODEL_NAME, name);
@@ -136,35 +115,5 @@ public class ModelController {
         repositoryService.saveModel(modelData);
 
         return Result.success();
-    }
-
-    @Log("工作流|启动流程")
-    @ApiOperation("工作流|启动流程")
-    @PostMapping("/start/{key}")
-    @AnonymousPostMapping
-    public Result start(@PathVariable("key") String key) throws Exception {
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(key);
-        return Result.success();
-    }
-
-    @Log("工作流|模型列表")
-    @ApiOperation("工作流|模型列表")
-    @GetMapping("/getTasks")
-    @AnonymousGetMapping
-    public Result getTasks() {
-        List<Task> list = taskService.createTaskQuery().list();
-        List<TaskVo> result = new ArrayList<>();
-        for (Task task : list) {
-            TaskVo taskVo = new TaskVo();
-            taskVo.setId(task.getId());
-            taskVo.setName(task.getName());
-            taskVo.setAssignee(task.getAssignee());
-            taskVo.setProcessDefinitionId(task.getProcessDefinitionId());
-            taskVo.setTaskDefinitionKey(task.getTaskDefinitionKey());
-            taskVo.setCreateTime(task.getCreateTime());
-
-            result.add(taskVo);
-        }
-        return Result.success(result);
     }
 }

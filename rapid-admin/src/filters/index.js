@@ -69,6 +69,7 @@ export function uppercaseFirst(string) {
 }
 
 export function timeFormat(timestamp, fmt) {
+  if (timestamp === undefined || timestamp === '' || timestamp === null) return ''
   if (fmt === undefined) fmt = 'YYYY-MM-DD HH:mm:ss'
   return moment(timestamp).format(fmt)
 }

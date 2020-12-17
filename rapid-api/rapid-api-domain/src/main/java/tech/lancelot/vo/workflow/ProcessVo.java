@@ -1,4 +1,4 @@
-package tech.lancelot.vo;
+package tech.lancelot.vo.workflow;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

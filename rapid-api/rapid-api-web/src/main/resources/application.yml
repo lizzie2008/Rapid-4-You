@@ -3,12 +3,16 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
+  activiti:
+    database-schema-update: false
+    check-process-definitions: false
+    db-identity-used: false
   #配置数据源
   datasource:
     druid:
       db-type: com.alibaba.druid.pool.DruidDataSource
       driverClassName: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://mysql:3306/eladmin?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+      url: jdbc:mysql://mysql:3306/db_rapid?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
 #      driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 #      url: jdbc:log4jdbc:mysql://mysql:3306/eladmin?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
       username: root
@@ -69,8 +73,6 @@ spring:
     elasticsearch:
       cluster-name: docker-cluster
       cluster-nodes: 182.92.103.188:9300
-  activiti:
-    check-process-definitions: false
 
 #jwt
 jwt:
@@ -152,14 +154,5 @@ upload:
 logging:
   config: classpath:logback-spring.xml
 
-# activiti配置
-activiti:
-  # true  代表没有表就自动创建
-  database-schema-update: true
-  # 记录级别,默认audit
-  history-level: full
-  # （可选）自动部署验证设置:true-开启（默认）、false-关闭
-  check-process-definitions: false
-  # （可选）默认流程定义文件存放目录
-  process-definition-location-prefix: classpath:/processes/
+
 
