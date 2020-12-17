@@ -40,7 +40,7 @@
         <el-input
           v-model="form.host"
           style="width: 95%"
-          placeholder="外链域名，可自定义，需在七牛云绑定"
+          placeholder="外链域名，可自定义，需在阿里云绑定"
         />
       </el-form-item>
     </el-form>

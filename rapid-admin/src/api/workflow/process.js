@@ -8,35 +8,40 @@ export function getAll() {
   })
 }
 
-// export function get(id) {
-//   return request({
-//     url: 'api/articles/' + id,
-//     method: 'get'
-//   })
-// }
+export function start(id) {
+  return request({
+    url: 'api/processes/start/' + id,
+    method: 'post'
+  })
+}
 
-// export function create(data) {
-//   return request({
-//     url: 'api/articles',
-//     method: 'post',
-//     data
-//   })
-// }
+export function del(id) {
+  return request({
+    url: 'api/processes/delete/' + id,
+    method: 'delete',
+    data: id
+  })
+}
 
-// export function update(data) {
-//   return request({
-//     url: 'api/articles',
-//     method: 'put',
-//     data
-//   })
-// }
+export function currentList() {
+  return request({
+    url: 'api/processes/currentList',
+    method: 'get'
+  })
+}
 
-// export function del(ids) {
-//   return request({
-//     url: 'api/articles',
-//     method: 'delete',
-//     data: ids
-//   })
-// }
+export function historyList() {
+  return request({
+    url: 'api/processes/historyList',
+    method: 'get'
+  })
+}
 
-export default { getAll }
+export function detail(id) {
+  return request({
+    url: 'api/processes/detail/' + id,
+    method: 'get'
+  })
+}
+
+export default { getAll, start, del, currentList, historyList, detail }
