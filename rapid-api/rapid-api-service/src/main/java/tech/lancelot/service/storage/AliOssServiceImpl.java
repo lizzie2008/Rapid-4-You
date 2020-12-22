@@ -14,6 +14,7 @@ import tech.lancelot.domain.tools.StorageConfig;
 import tech.lancelot.dto.AliOssDto;
 import tech.lancelot.repository.storage.StorageConfigRepository;
 import tech.lancelot.utils.FileUtil;
+import tech.lancelot.utils.StringUtils;
 import tech.lancelot.utils.ValidationUtil;
 
 import java.io.ByteArrayInputStream;
@@ -36,11 +37,12 @@ public class AliOssServiceImpl implements AliOssService {
 
     @Override
     public StorageConfig getConfig() {
-        Optional<StorageConfig> storageConfig = storageConfigRepository.findById("ali-oss");
-        if(!storageConfig.isPresent()) {
-            throw new RuntimeException("未能匹配[config_id]为ali-oss的相关配置，请在[tool_storage_config]表中进行配置");
+        Optional<StorageConfig> optionalStorageConfig = storageConfigRepository.findById("ali-oss");
+        if (!optionalStorageConfig.isPresent()) {
+            throw new RuntimeException("未能匹配[config_id]为ali-oss的相关配置，请在[tool_storage_config]表中进行配置。");
         }
-        return storageConfig.get();
+
+        return optionalStorageConfig.get();
     }
 
     @Override
@@ -55,6 +57,8 @@ public class AliOssServiceImpl implements AliOssService {
         try {
             // 创建OSSClient实例。
             StorageConfig config = getConfig();
+            checkConfig(config);
+
             OSS ossClient = new OSSClientBuilder()
                     .build(config.getHost(), config.getAccessKey(), config.getSecretKey());
             // 构造ListObjectsRequest请求。
@@ -103,6 +107,7 @@ public class AliOssServiceImpl implements AliOssService {
         try {
             FileUtil.checkSize(maxSize, file.getSize());
             StorageConfig config = getConfig();
+            checkConfig(config);
 
             // 创建OSSClient实例。
             OSS ossClient = new OSSClientBuilder()
@@ -116,6 +121,16 @@ public class AliOssServiceImpl implements AliOssService {
             ossClient.shutdown();
         } catch (Exception e) {
             throw new RuntimeException("上传OSS文件出错:" + e.getMessage());
+        }
+    }
+
+    /**
+     * 检查配置信息有效性
+     * @param storageConfig
+     */
+    private void checkConfig(StorageConfig storageConfig) {
+        if (StringUtils.isAnyBlank(storageConfig.getAccessKey(), storageConfig.getBucket(), storageConfig.getSecretKey(), storageConfig.getHost())) {
+            throw new RuntimeException("配置信息不完善，请在配置界面完善当前配置。");
         }
     }
 }

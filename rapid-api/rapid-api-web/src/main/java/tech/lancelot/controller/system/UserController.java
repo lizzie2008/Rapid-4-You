@@ -109,12 +109,12 @@ public class UserController {
 
     @Log("修改用户：个人中心")
     @ApiOperation("修改用户：个人中心")
-    @PutMapping(value = "center")
-    public Result center(@Validated(User.Update.class) @RequestBody User resources) {
+    @PutMapping(value = "profile")
+    public Result profile(@Validated(User.Update.class) @RequestBody User resources) {
         if (!resources.getId().equals(SecurityUtils.getCurrentUserId())) {
             throw new BadRequestException("不能修改他人资料");
         }
-        userService.updateCenter(resources);
+        userService.updateProfile(resources);
         return Result.success();
     }
 

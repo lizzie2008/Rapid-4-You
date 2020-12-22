@@ -56,7 +56,6 @@ public class AuthorizationController {
     @Resource
     private LoginProperties loginProperties;
 
-    @Log("获取验证码")
     @ApiOperation("获取验证码")
     @AnonymousGetMapping("/captcha")
     public Result<Map<String,Object>> captcha(){

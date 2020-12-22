@@ -121,10 +121,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateCenter(User resources) {
+    public void updateProfile(User resources) {
         User user = userRepository.findById(resources.getId()).orElseGet(User::new);
         user.setNickName(resources.getNickName());
         user.setPhone(resources.getPhone());
+        user.setEmail(resources.getEmail());
         user.setGender(resources.getGender());
         userRepository.save(user);
         // 清理缓存

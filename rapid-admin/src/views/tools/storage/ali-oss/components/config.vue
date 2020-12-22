@@ -94,7 +94,7 @@ export default {
                 type: 'success',
                 duration: 2500
               })
-              this.$parent.init()
+              this.$parent.refresh()
               this.loading = false
               this.dialog = false
             })

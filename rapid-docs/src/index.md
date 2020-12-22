@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /logo.png
-tagline: 一款简单快速构建信息管理系统前后端的框架
+tagline: 一款简单、快速构建 信息管理系统 前后端的框架
 actionText: 快速开始 →
 actionLink: /guide/
 features:

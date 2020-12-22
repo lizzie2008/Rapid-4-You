@@ -97,5 +97,5 @@ public interface UserService {
      * 用户自助修改资料
      * @param resources /
      */
-    void updateCenter(User resources);
+    void updateProfile(User resources);
 }
