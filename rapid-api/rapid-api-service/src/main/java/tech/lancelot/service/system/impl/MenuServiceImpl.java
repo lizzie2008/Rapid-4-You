@@ -207,9 +207,9 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuDto> getMenus(Long pid) {
         List<Menu> menus;
         if (pid != null && !pid.equals(0L)) {
-            menus = menuRepository.findByPid(pid);
+            menus = menuRepository.findByPidOrderByMenuSortAsc(pid);
         } else {
-            menus = menuRepository.findByPidIsNull();
+            menus = menuRepository.findByPidIsNullOrderByMenuSortAsc();
         }
         return menuMapper.toDto(menus);
     }

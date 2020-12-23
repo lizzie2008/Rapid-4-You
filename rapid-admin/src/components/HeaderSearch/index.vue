@@ -1,6 +1,10 @@
 <template>
-  <div :class="{'show':show}" class="header-search">
-    <svg-icon class-name="search-icon" icon-class="search" @click.stop="click" />
+  <div :class="{ show: show }" class="header-search">
+    <svg-icon
+      class-name="search-icon"
+      icon-class="search"
+      @click.stop="click"
+    />
     <el-select
       ref="headerSearchSelect"
       v-model="search"
@@ -12,7 +16,12 @@
       class="header-search-select"
       @change="change"
     >
-      <el-option v-for="item in options" :key="item.path" :value="item" :label="item.title.join(' > ')" />
+      <el-option
+        v-for="item in options"
+        :key="item.path"
+        :value="item"
+        :label="item.title.join(' > ')"
+      />
     </el-select>
   </div>
 </template>
@@ -22,6 +31,7 @@
 // make search results more in line with expectations
 import Fuse from 'fuse.js'
 import path from 'path'
+import { isExternal } from '@/utils/validate'
 
 export default {
   name: 'HeaderSearch',
@@ -70,7 +80,11 @@ export default {
       this.show = false
     },
     change(val) {
-      this.$router.push(val.path)
+      if (isExternal(val.path)) {
+        window.open(val.path)
+      } else {
+        this.$router.push(val.path)
+      }
       this.search = ''
       this.options = []
       this.$nextTick(() => {
@@ -85,13 +99,16 @@ export default {
         distance: 100,
         maxPatternLength: 32,
         minMatchCharLength: 1,
-        keys: [{
-          name: 'title',
-          weight: 0.7
-        }, {
-          name: 'path',
-          weight: 0.3
-        }]
+        keys: [
+          {
+            name: 'title',
+            weight: 0.7
+          },
+          {
+            name: 'path',
+            weight: 0.3
+          }
+        ]
       })
     },
     // Filter out the routes that can be displayed in the sidebar
@@ -101,10 +118,14 @@ export default {
 
       for (const router of routes) {
         // skip hidden router
-        if (router.hidden) { continue }
+        if (router.hidden) {
+          continue
+        }
 
         const data = {
-          path: path.resolve(basePath, router.path),
+          path: isExternal(router.path)
+            ? router.path
+            : path.resolve(basePath, router.path),
           title: [...prefixTitle]
         }
 
@@ -120,7 +141,11 @@ export default {
 
         // recursive child routes
         if (router.children) {
-          const tempRoutes = this.generateRoutes(router.children, data.path, data.title)
+          const tempRoutes = this.generateRoutes(
+            router.children,
+            data.path,
+            data.title
+          )
           if (tempRoutes.length >= 1) {
             res = [...res, ...tempRoutes]
           }

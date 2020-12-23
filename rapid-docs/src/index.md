@@ -1,21 +1,21 @@
 ---
 home: true
 heroImage: /logo.png
-tagline: 一款简单、快速构建 信息管理系统 前后端的框架
+tagline: 一款简单、快速构建 后台管理系统 前后端的框架
 actionText: 快速开始 →
 actionLink: /guide/
 features:
 - title: 技术栈
-  details: 使用 SpringBoot、Jpa、Security、Redis、Vue 等前后端前沿技术开发。
-- title: 模块化
-  details: 后端采用按功能分模块开发方式，提升开发，测试效率。
-- title: 高效率
-  details: 项目简单可配，内置代码生成器，配置好表信息就能一键生成前后端代码。
+  details: 使用 SpringBoot、Vue 等前后端主流技术开发，不仅是一个开发框架，同时也方便您对相关技术的学习。
+- title: 简单上手
+  details: 项目简单可配，也集成了常用的功能Demo，您可以通过删减和增加相关模块代码，来快速构建自己的项目。
 - title: 分离式
-  details: 前后端完全分离，前端基于 Vue，后端基于 Spring boot。
-- title: 响应式
-  details: 支持电脑、平板、手机等所有主流设备访问。
+  details: 前后端完全分离，方便进行自动化的构建、打包和部署。
 - title: 易用性
-  details: 几乎可用于所有Web项目的开发，如 OA、Cms，网址后台管理等。
-footer: MIT Licensed | Copyright © 2018-present Leo Hsu
+  details: 几乎可用于所有Web项目的开发，如 OA、ERP、订单、博客等后台管理系统。
+- title: 工作流
+  details: 集成 Activiti 工作流引擎，可以构建工作流模板来定制您的业务流程。
+- title: 持续迭代
+  details: 前后端采用功能分模块开发，作者会定期增加版本功能，持续优化、升级。
+footer: MIT Licensed | Copyright © 2020-present Leo Hsu
 ---

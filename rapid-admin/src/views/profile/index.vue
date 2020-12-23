@@ -16,15 +16,7 @@
           <div>
             <div style="text-align: center">
               <div class="el-upload">
-                <img
-                  :src="
-                    user.avatarName
-                      ? baseApi + '/avatar/' + user.avatarName
-                      : Avatar
-                  "
-                  title="点击上传头像"
-                  class="avatar"
-                >
+                <img :src="Avatar" title="点击上传头像" class="avatar">
                 <!-- <myUpload
                   v-model="show"
                   :headers="headers"
@@ -63,9 +55,9 @@
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="16" :lg="18" :xl="19">
-        <!--    用户资料    -->
         <el-card class="box-card">
           <el-tabs v-model="activeName" @tab-click="handleClick">
+            <!--    用户资料    -->
             <el-tab-pane label="用户资料" name="first">
               <el-form
                 ref="form"
@@ -110,6 +102,64 @@
                 </el-form-item>
               </el-form>
             </el-tab-pane>
+            <!--    操作日志    -->
+            <el-tab-pane label="操作日志" name="second">
+              <el-table
+                v-loading="dataLoading"
+                :data="logData"
+                style="width: 100%"
+              >
+                <el-table-column prop="description" label="行为" />
+                <el-table-column prop="requestIp" label="IP" />
+                <el-table-column
+                  :show-overflow-tooltip="true"
+                  prop="address"
+                  label="IP来源"
+                />
+                <el-table-column prop="browser" label="浏览器" />
+                <el-table-column prop="time" label="请求耗时" align="center">
+                  <template slot-scope="scope">
+                    <el-tag
+                      v-if="scope.row.time <= 300"
+                    >{{ scope.row.time }}ms</el-tag>
+                    <el-tag
+                      v-else-if="scope.row.time <= 1000"
+                      type="warning"
+                    >{{ scope.row.time }}ms</el-tag>
+                    <el-tag v-else type="danger">{{ scope.row.time }}ms</el-tag>
+                  </template>
+                </el-table-column>
+                <el-table-column align="right">
+                  <template slot="header">
+                    <div
+                      style="
+                        display: inline-block;
+                        float: right;
+                        cursor: pointer;
+                      "
+                      @click="refreshLogs"
+                    >
+                      创建日期<i
+                        class="el-icon-refresh"
+                        style="margin-left: 40px"
+                      />
+                    </div>
+                  </template>
+                  <template slot-scope="scope">
+                    <span>{{ scope.row.createTime | timeFormat }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+              <!--分页组件-->
+              <el-pagination
+                :current-page.sync="pageable.page"
+                :page-size="pageable.size"
+                :total="logTotal"
+                style="margin-top: 8px"
+                layout="total, prev, pager, next, sizes"
+                @current-change="refreshLogs"
+              />
+            </el-tab-pane>
           </el-tabs>
         </el-card>
       </el-col>
@@ -119,13 +169,13 @@
 </template>
 
 <script>
+import Avatar from '@/assets/images/avatar.png'
 import { mapGetters } from 'vuex'
-import updatePass from './components/updatePass'
-import { getToken } from '@/utils/auth'
 import store from '@/store'
+import updatePass from './components/updatePass'
 import { isvalidPhone, validEmail } from '@/utils/validate'
 import { editProfile } from '@/api/system/user'
-import Avatar from '@/assets/images/avatar.png'
+import { currentUser } from '@/api/system/log'
 
 // 自定义验证
 const validPhone = (rule, value, callback) => {
@@ -147,7 +197,7 @@ const validMail = (rule, value, callback) => {
   }
 }
 export default {
-  name: 'Center',
+  name: 'Profile',
   components: { updatePass },
   data() {
     return {
@@ -155,8 +205,12 @@ export default {
       Avatar: Avatar,
       activeName: 'first',
       saveLoading: false,
-      headers: {
-        Authorization: getToken()
+      dataLoading: false,
+      logData: [],
+      logTotal: 0,
+      pageable: {
+        page: 1,
+        size: 10
       },
       form: {},
       rules: {
@@ -187,21 +241,11 @@ export default {
     }
   },
   methods: {
-    // toggleShow() {
-    //   this.show = !this.show;
-    // },
     handleClick(tab, event) {
       if (tab.name === 'second') {
-        this.init()
+        this.refreshLogs()
       }
     },
-    // beforeInit() {
-    //   this.url = "api/logs/user";
-    //   return true;
-    // },
-    // cropUploadSuccess(jsonData, field) {
-    //   store.dispatch("GetInfo").then(() => {});
-    // },
     doSubmit() {
       if (this.$refs['form']) {
         this.$refs['form'].validate((valid) => {
@@ -222,6 +266,19 @@ export default {
           }
         })
       }
+    },
+    refreshLogs() {
+      currentUser({
+        page: this.pageable.page - 1,
+        size: this.pageable.size,
+        sort: ['createTime,desc']
+      })
+        .then((res) => {
+          this.logData = res.content
+          this.logTotal = res.totalElements
+          console.log(res)
+        })
+        .catch(() => {})
     }
   }
 }

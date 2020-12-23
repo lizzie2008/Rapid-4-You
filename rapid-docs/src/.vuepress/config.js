@@ -2,6 +2,7 @@ const { description } = require('../../package')
 
 module.exports = {
   title: 'Rapid 4 You',
+  port: 8060,
   description: '一款简单快速构建信息管理系统前后端的框架',
   head: [
     ['meta', { name: 'theme-color', content: '#3eaf7c' }],
@@ -24,8 +25,8 @@ module.exports = {
         link: '/config/'
       },
       {
-        text: 'VuePress',
-        link: 'https://v1.vuepress.vuejs.org'
+        text: 'Github',
+        link: 'https://github.com/lizzie2008/Rapid-4-You'
       }
     ],
     sidebar: {

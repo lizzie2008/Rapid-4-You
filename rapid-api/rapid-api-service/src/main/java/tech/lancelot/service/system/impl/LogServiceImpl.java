@@ -4,13 +4,17 @@ import cn.hutool.json.JSONObject;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.lancelot.domain.system.Log;
 import tech.lancelot.dto.system.LogQueryCriteria;
+import tech.lancelot.mapstruct.sys.LogSmallMapper;
 import tech.lancelot.repository.system.LogRepository;
 import tech.lancelot.service.system.LogService;
+import tech.lancelot.utils.PageUtil;
+import tech.lancelot.utils.QueryHelp;
 import tech.lancelot.utils.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,11 +31,11 @@ public class LogServiceImpl implements LogService {
 
 
     private final LogRepository logRepository;
-//    private final LogErrorMapper logErrorMapper;
-//    private final LogSmallMapper logSmallMapper;
+    //    private final LogErrorMapper logErrorMapper;
+    private final LogSmallMapper logSmallMapper;
 
     @Override
-    public Object queryAll(LogQueryCriteria criteria, Pageable pageable){
+    public Object queryAll(LogQueryCriteria criteria, Pageable pageable) {
 //        Page<Log> page = logRepository.findAll(((root, criteriaQuery, cb) -> QueryHelp.getPredicate(root, criteria, cb)),pageable);
 //        String status = "ERROR";
 //        if (status.equals(criteria.getLogType())) {
@@ -49,21 +53,20 @@ public class LogServiceImpl implements LogService {
 
     @Override
     public Object queryAllByUser(LogQueryCriteria criteria, Pageable pageable) {
-//        Page<Log> page = logRepository.findAll(((root, criteriaQuery, cb) -> QueryHelp.getPredicate(root, criteria, cb)),pageable);
-//        return PageUtil.toPage(page.map(logSmallMapper::toDto));
-        return null;
+        Page<Log> page = logRepository.findAll(((root, criteriaQuery, cb) -> QueryHelp.getPredicate(root, criteriaQuery, cb, criteria)), pageable);
+        return PageUtil.toPage(page.map(logSmallMapper::toDto));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(String username, String browser, String ip, ProceedingJoinPoint joinPoint, Log log){
+    public void save(String username, String browser, String ip, ProceedingJoinPoint joinPoint, Log log) {
 
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         tech.lancelot.annotations.Log aopLog = method.getAnnotation(tech.lancelot.annotations.Log.class);
 
         // 方法路径
-        String methodName = joinPoint.getTarget().getClass().getName()+"."+signature.getName()+"()";
+        String methodName = joinPoint.getTarget().getClass().getName() + "." + signature.getName() + "()";
 
         StringBuilder params = new StringBuilder("{");
         //参数值
@@ -80,10 +83,10 @@ public class LogServiceImpl implements LogService {
         log.setRequestIp(ip);
 
         String loginPath = "login";
-        if(loginPath.equals(signature.getName())){
+        if (loginPath.equals(signature.getName())) {
             try {
                 username = new JSONObject(argValues.get(0)).get("username").toString();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
