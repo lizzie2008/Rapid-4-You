@@ -39,12 +39,6 @@
           <span style="display:block;" @click="showSettings = true">
             <el-dropdown-item>布局设置</el-dropdown-item>
           </span>
-          <!-- <a target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>-->
           <el-dropdown-item divided @click.native="confirmLogout">
             <span style="display:block;">注销</span>
           </el-dropdown-item>

@@ -35,15 +35,19 @@ module.exports = {
           title: '指南',
           collapsable: false,
           children: [
-            '',
-            '快速上手',
-            '版本信息',
+            '/guide/',
+            '/guide/快速上手',
+            '/guide/版本信息',
           ]
         },
         {
           title: '前端手册',
           collapsable: false,
           children: [
+            '/guide/front/基础介绍',
+            '/guide/front/页面布局',
+            '/guide/front/权限验证',
+            '/guide/front/新增模块',
           ]
         },
         {
@@ -65,7 +69,7 @@ module.exports = {
           children: [
           ]
         }
-      ],
+      ]
     }
   },
   plugins: [
