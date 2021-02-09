@@ -54,6 +54,8 @@ module.exports = {
           title: '后端手册',
           collapsable: false,
           children: [
+            '/guide/background/基础介绍',
+            '/guide/background/权限管理',
           ]
         },
         {

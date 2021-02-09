@@ -8,7 +8,7 @@
           placeholder="请输入全文检索内容"
           clearable
           style="width: 60%"
-          @change="page=1"
+          @change="page = 1"
           @keyup.enter.native="searching"
         >
           <el-button
@@ -26,7 +26,10 @@
         >同步 Elasticsearch</el-button>
       </el-row>
     </div>
-    <small v-if="result.content == null || result.content.length == 0" class="text-muted">
+    <small
+      v-if="result.content == null || result.content.length == 0"
+      class="text-muted"
+    >
       没有找到匹配的记录
     </small>
     <el-card v-else v-loading="loading" class="box-card">
