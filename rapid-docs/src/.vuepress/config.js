@@ -20,9 +20,13 @@ module.exports = {
         text: '文档指南',
         link: '/guide/',
       },
+      // {
+      //   text: '配置',
+      //   link: '/config/'
+      // },
       {
-        text: '配置',
-        link: '/config/'
+        text: '作者博客',
+        link: 'https://www.lancelot.tech/'
       },
       {
         text: 'Github',
@@ -56,6 +60,7 @@ module.exports = {
           children: [
             '/guide/background/基础介绍',
             '/guide/background/权限管理',
+            '/guide/background/全局定义',
           ]
         },
         {
