@@ -14,14 +14,13 @@
   </a>
 </div>
 
-**开发文档：** [http://docs.lancelot.tech/](http://docs.lancelot.tech/)
-
 ## 项目源码
 
 |        | 前端源码                                                     | 后端源码                                                     |
 | ------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | Github | [Rapid-4-You/rapid-admin](https://github.com/lizzie2008/Rapid-4-You/tree/master/rapid-admin) | [Rapid-4-You/rapid-api](https://github.com/lizzie2008/Rapid-4-You/tree/master/rapid-api) |
 
+**开发文档：** [http://docs.lancelot.tech/](http://docs.lancelot.tech/)
 
 本项目旨在方便开发人员快速搭建一套商业级、前后端分离的管理平台。技术上借鉴了Github两位大神的开源项目，并针对自己的业务特点进行了部分调整。
 
